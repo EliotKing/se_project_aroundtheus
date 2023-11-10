@@ -1,6 +1,9 @@
 .button {
   border: none;
-  background: transparent;
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   padding: 0;
 }
 
@@ -10,4 +13,8 @@
 
 .button_type_add {
   background: url(../images/icon-add.svg);
+}
+
+.button_type_like {
+  background: url(../images/icon-like.svg);
 }

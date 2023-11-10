@@ -1,0 +1,9 @@
+.gallery__cards {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 282rem);
+  justify-content: center;
+  gap: 20rem 17rem;
+}
