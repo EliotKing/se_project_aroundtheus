@@ -1,4 +1,24 @@
 .page {
+  background-color: #000;
+  color: #fff;
   font-family: Inter, Arial, Helvetica, sans-serif;
   font-weight: 400;
+}
+
+.page__content {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 880rem;
+  width: 100%;
+  position: relative;
+}
+
+.page__header {
+  margin-top: 45rem;
+}
+
+.page__footer {
+  margin-top: 67rem;
+  margin-bottom: 60rem;
 }

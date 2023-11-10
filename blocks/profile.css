@@ -1,0 +1,48 @@
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile__avatar {
+  height: 120rem;
+  width: 120rem;
+  margin-right: 30rem;
+}
+
+.profile__info {
+  display: grid;
+  max-width: 415rem;
+  grid-template-areas:
+    "name button"
+    "description description";
+  grid-template-columns: minmax(auto, 373rem) auto;
+  gap: 7rem 18rem;
+}
+
+.profile__name {
+  grid-area: name;
+  font-size: 42rem;
+  line-height: 48rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.profile__edit-button {
+  grid-area: button;
+  height: 24rem;
+  width: 24rem;
+  margin-top: 15rem;
+}
+
+.profile__description {
+  grid-area: description;
+  font-size: 18rem;
+  line-height: 22rem;
+  margin: 0;
+}
+
+.profile__add-button {
+  height: 50rem;
+  width: 150rem;
+  margin: 13rem 0 14rem auto;
+}

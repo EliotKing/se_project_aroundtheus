@@ -1,0 +1,13 @@
+.button {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.button_type_edit {
+  background: url(../images/icon-edit.svg);
+}
+
+.button_type_add {
+  background: url(../images/icon-add.svg);
+}
