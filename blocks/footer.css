@@ -1,5 +1,42 @@
+.footer {
+  display: flex;
+  max-width: 880rem;
+  width: 100%;
+  position: relative;
+}
 .footer__copyright {
   color: #545454;
+  font-size: 18rem;
   line-height: 18rem;
   margin: 0;
+}
+
+@media screen and (max-width: 980px) {
+  .footer {
+    max-width: calc(100% - 100rem);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .footer {
+    max-width: 604rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .footer {
+    width: 100%;
+    max-width: 720rem;
+  }
+  .footer__copyright {
+    margin-left: 40rem;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .footer__copyright {
+    font-size: 14rem;
+    line-height: 14rem;
+    margin-left: 19rem;
+  }
 }

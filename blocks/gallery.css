@@ -7,3 +7,17 @@
   justify-content: center;
   gap: 20rem 17rem;
 }
+
+@media screen and (max-width: 980px) {
+  .gallery__cards {
+    gap: 40rem 40rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .gallery__cards {
+    /* Since the margins were reduced by this media query, the cards jumped back to 2 columns.
+    The column gap here serves to force the grid back into a single column for all widths below 720px. */
+    gap: 20rem 200rem;
+  }
+}

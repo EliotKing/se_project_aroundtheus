@@ -8,11 +8,11 @@
 }
 
 .button_type_edit {
-  background: url(../images/icon-edit.svg);
+  background: url(../images/icon-edit_large.svg);
 }
 
 .button_type_add {
-  background: url(../images/icon-add.svg);
+  background: url(../images/icon-add_small.svg);
 }
 
 .button_type_like {

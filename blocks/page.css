@@ -4,7 +4,6 @@
   font-family: Inter, Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
-
 .page__content {
   margin: 0 auto;
   display: flex;
@@ -13,12 +12,57 @@
   width: 100%;
   position: relative;
 }
-
 .page__header {
-  margin-top: 45rem;
+  margin: 45rem auto 40rem;
+}
+.page__footer {
+  margin: 67rem auto 60rem;
 }
 
-.page__footer {
-  margin-top: 67rem;
-  margin-bottom: 60rem;
+@media screen and (max-width: 980px) {
+  .page__content {
+    margin: 0 50rem;
+    max-width: calc(100% - 100rem);
+  }
+  .page__header {
+    margin: 45rem 50rem 40rem;
+  }
+  .page__footer {
+    margin: 67rem 50rem 60rem;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .page__header {
+    margin: 45rem auto 40rem;
+  }
+  .page__footer {
+    max-width: 604rem;
+    margin: 67rem auto 60rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .page__content {
+    margin: 0 19rem;
+    max-width: calc(100% - 38rem);
+    min-width: 282rem;
+  }
+  .page__header {
+    margin: 28rem 0 42rem;
+  }
+  .page__footer {
+    margin: 48rem 0 36rem;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .page__content {
+    margin: 0 19rem;
+    max-width: calc(100% - 38rem);
+    min-width: 282rem;
+  }
+  .page__header {
+    margin: 28rem 0 42rem;
+  }
 }

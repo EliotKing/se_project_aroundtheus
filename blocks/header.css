@@ -1,9 +1,48 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  max-width: 880rem;
+  width: 100%;
+  position: relative;
+}
 .header__logo {
   width: 173rem;
   height: 33rem;
+  margin-bottom: 40rem;
+}
+.header__line {
+  margin: 0;
+  height: 1rem;
+  border: 0;
+  background-color: #545454;
 }
 
-.header__line {
-  color: #545454;
-  height: 81rem;
+@media screen and (max-width: 980px) {
+  .header {
+    max-width: calc(100% - 100rem);
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .header {
+    max-width: 604rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .header {
+    width: 100%;
+    max-width: 100%;
+  }
+  .header__logo {
+    margin: 0 0 31rem 40rem;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .header__logo {
+    width: 126rem;
+    height: 24rem;
+    margin: 0 0 31rem 27rem;
+  }
 }
