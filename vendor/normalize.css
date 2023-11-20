@@ -4,13 +4,11 @@
    ========================================================================== */
 
 /**
- * 1. Change the font size to 6.25% (1px) for a 1:1 px to rem ratio
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
 html {
-  font-size: 6.25%;
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -19,12 +17,10 @@ html {
    ========================================================================== */
 
 /**
- * 1. revert the font size to 16px to support old browsers that don't recognize rem
- * 2. Remove the margin in all browsers.
+ * Remove the margin in all browsers.
  */
 
 body {
-  font-size: 1600%;
   margin: 0;
 }
 

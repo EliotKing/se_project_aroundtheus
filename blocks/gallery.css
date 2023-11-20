@@ -3,14 +3,14 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 282rem);
+  grid-template-columns: repeat(auto-fit, 282px);
   justify-content: center;
-  gap: 20rem 17rem;
+  gap: 20px 17px;
 }
 
 @media screen and (max-width: 980px) {
   .gallery__cards {
-    gap: 40rem 40rem;
+    gap: 40px 40px;
   }
 }
 
@@ -18,6 +18,6 @@
   .gallery__cards {
     /* Since the margins were reduced by this media query, the cards jumped back to 2 columns.
     The column gap here serves to force the grid back into a single column for all widths below 720px. */
-    gap: 20rem 200rem;
+    gap: 20px 200px;
   }
 }

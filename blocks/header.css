@@ -1,31 +1,31 @@
 .header {
   display: flex;
   flex-direction: column;
-  max-width: 880rem;
+  max-width: 880px;
   width: 100%;
   position: relative;
 }
 .header__logo {
-  width: 173rem;
-  height: 33rem;
-  margin-bottom: 40rem;
+  width: 173px;
+  height: 33px;
+  margin-bottom: 40px;
 }
 .header__line {
   margin: 0;
-  height: 1rem;
+  height: 1px;
   border: 0;
   background-color: #545454;
 }
 
 @media screen and (max-width: 980px) {
   .header {
-    max-width: calc(100% - 100rem);
+    max-width: calc(100% - 100px);
   }
 }
 
 @media screen and (max-width: 850px) {
   .header {
-    max-width: 604rem;
+    max-width: 604px;
   }
 }
 
@@ -35,14 +35,14 @@
     max-width: 100%;
   }
   .header__logo {
-    margin: 0 0 31rem 40rem;
+    margin: 0 0 31px 40px;
   }
 }
 
 @media screen and (max-width: 520px) {
   .header__logo {
-    width: 126rem;
-    height: 24rem;
-    margin: 0 0 31rem 27rem;
+    width: 126px;
+    height: 24px;
+    margin: 0 0 31px 27px;
   }
 }

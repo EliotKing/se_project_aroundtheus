@@ -8,61 +8,61 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  max-width: 880rem;
+  max-width: 880px;
   width: 100%;
   position: relative;
 }
 .page__header {
-  margin: 45rem auto 40rem;
+  margin: 45px auto 40px;
 }
 .page__footer {
-  margin: 67rem auto 60rem;
+  margin: 67px auto 60px;
 }
 
 @media screen and (max-width: 980px) {
   .page__content {
-    margin: 0 50rem;
-    max-width: calc(100% - 100rem);
+    margin: 0 50px;
+    max-width: calc(100% - 100px);
   }
   .page__header {
-    margin: 45rem 50rem 40rem;
+    margin: 45px 50px 40px;
   }
   .page__footer {
-    margin: 67rem 50rem 60rem;
+    margin: 67px 50px 60px;
   }
 }
 
 @media screen and (max-width: 850px) {
   .page__header {
-    margin: 45rem auto 40rem;
+    margin: 45px auto 40px;
   }
   .page__footer {
-    max-width: 604rem;
-    margin: 67rem auto 60rem;
+    max-width: 604px;
+    margin: 67px auto 60px;
   }
 }
 
 @media screen and (max-width: 720px) {
   .page__content {
-    margin: 0 19rem;
-    max-width: calc(100% - 38rem);
-    min-width: 282rem;
+    margin: 0 19px;
+    max-width: calc(100% - 38px);
+    min-width: 282px;
   }
   .page__header {
-    margin: 28rem 0 42rem;
+    margin: 28px 0 42px;
   }
   .page__footer {
-    margin: 48rem 0 36rem;
+    margin: 48px 0 36px;
   }
 }
 
 @media screen and (max-width: 520px) {
   .page__content {
-    margin: 0 19rem;
-    max-width: calc(100% - 38rem);
-    min-width: 282rem;
+    margin: 0 19px;
+    max-width: calc(100% - 38px);
+    min-width: 282px;
   }
   .page__header {
-    margin: 28rem 0 42rem;
+    margin: 28px 0 42px;
   }
 }

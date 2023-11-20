@@ -1,4 +1,4 @@
-/* Slightly modified normalize.css to set rem units to the size of pixels */
+/* Slightly modified normalize.css to set px units to the size of pixels */
 @import url(../vendor/normalize.css);
 @import url(../vendor/fonts.css);
 @import url(../blocks/page.css);
