@@ -1,20 +1,32 @@
 .button {
   border: none;
-  background-color: transparent;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   padding: 0;
 }
 
+.button:hover {
+  opacity: 60%;
+}
+
 .button_type_edit {
-  background: url(../images/icon-edit_large.svg);
+  background: url(../images/icon-edit.svg) transparent center no-repeat;
+  height: 24px;
+  width: 24px;
+  border: 1px solid #fff;
 }
 
 .button_type_add {
-  background: url(../images/icon-add_small.svg);
+  background: url(../images/icon-add.svg) transparent center no-repeat;
+  height: 50px;
+  width: 50px;
+  border: 2px solid #fff;
 }
 
 .button_type_like {
-  background: url(../images/icon-like.svg);
+  background: url(../images/icon-like.svg) transparent center no-repeat;
+  height: 18px;
+  width: 21px;
+}
+
+.button_type_like:hover {
+  opacity: 50%;
 }

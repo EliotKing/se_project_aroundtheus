@@ -1,6 +1,5 @@
 .profile {
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
   align-items: center;
   padding-bottom: 51px;
 }
@@ -11,11 +10,11 @@
 }
 .profile__info {
   display: grid;
-  max-width: 415px;
+  max-width: 500px;
+  width: max-content;
   grid-template-areas:
     "name button"
     "description description";
-  grid-template-columns: minmax(auto, 373px) auto;
   gap: 7px 18px;
 }
 .profile__name {
@@ -24,11 +23,14 @@
   line-height: 48px;
   font-weight: 500;
   margin: 0;
+  max-width: 458px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .profile__edit-button {
   grid-area: button;
-  height: 24px;
-  width: 24px;
+  /* Align button with the Profile name */
   margin-top: 15px;
 }
 .profile__description {
@@ -36,15 +38,25 @@
   font-size: 18px;
   line-height: 22px;
   margin: 0;
+  max-width: 500px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .profile__add-button {
-  height: 50px;
   width: 150px;
   margin: 13px 0 14px auto;
 }
 
+@media screen and (max-width: 934px) {
+  .profile__add-button {
+    width: 80px;
+  }
+}
+
 @media screen and (max-width: 850px) {
   .profile {
+    display: grid;
     grid-template-areas:
       "avatar info"
       "button button";
@@ -56,21 +68,23 @@
     /* Set equal to the column gap */
     margin-right: 18px;
   }
+  .profile__name {
+    /* Width of the gallery (604px) with the widths of the other profile elements (avatar, edit button) removed.
+    The gallery width was chosen as the horizontal bounds for this resolution for a better aesthetic presentation. */
+    max-width: 424px;
+    font-size: 39px;
+  }
   .profile__info {
     grid-area: info;
-    max-width: 604px;
-    /* aligns the left edge of the info with the button in the two column widths */
-    margin-right: 8px;
   }
   .profile__add-button {
     grid-area: button;
-    background: url(../images/icon-add_large.svg);
     width: 282px;
     margin: 0 auto;
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 700px) {
   .profile__avatar {
     margin-right: 18px;
   }
@@ -79,17 +93,22 @@
     column-gap: 18px;
   }
   .profile__name {
-    font-size: 34px;
-    line-height: 34px;
+    font-size: 24px;
+    line-height: 24px;
     width: max-content;
+    /* Max width calculated by taking 520px (the next media query width), and subtracting the margins and all other profile elements and gaps.
+    This ensures that the max width aligns with the width of the header and footer. */
+    max-width: 260px;
   }
   .profile__edit-button {
-    margin: 0;
-    align-self: center;
+    width: 18px;
+    height: 18px;
+    /* Top margin to align the button with the text */
+    margin: 2px 0 0;
   }
   .profile__description {
-    font-size: 16px;
-    line-height: 18px;
+    font-size: 14px;
+    line-height: 14px;
   }
 }
 
@@ -115,17 +134,16 @@
     line-height: 22px;
     /* Offset the name by the size of the edit button plus the gap between the name and button in order to center it */
     margin-left: 28px;
+    /* Width of the cards (282px) minus the left margin and the edit button plus gap, so that the content doesn't expand beyond the cards. */
+    max-width: 226px;
   }
   .profile__edit-button {
     /* Bottom margin to align the button with the text */
     margin: 0 0 3px 10px;
-    height: 18px;
-    width: 18px;
-    background: url(../images/icon-edit_small.svg);
   }
   .profile__description {
     justify-self: center;
-    font-size: 14px;
-    line-height: 14px;
+    /* Width of the cards */
+    max-width: 282px;
   }
 }

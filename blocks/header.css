@@ -17,7 +17,7 @@
   background-color: #545454;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 934px) {
   .header {
     max-width: calc(100% - 100px);
   }
@@ -25,16 +25,19 @@
 
 @media screen and (max-width: 850px) {
   .header {
+    /* Width of the gallery. The gallery width was chosen as the horizontal bounds for this resolution for a better aesthetic presentation. */
     max-width: 604px;
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 700px) {
   .header {
     width: 100%;
     max-width: 100%;
   }
   .header__logo {
+    width: 147px;
+    height: 28px;
     margin: 0 0 31px 40px;
   }
 }

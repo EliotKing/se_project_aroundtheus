@@ -8,13 +8,13 @@
   gap: 20px 17px;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 934px) {
   .gallery__cards {
     gap: 40px 40px;
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 700px) {
   .gallery__cards {
     /* Since the margins were reduced by this media query, the cards jumped back to 2 columns.
     The column gap here serves to force the grid back into a single column for all widths below 720px. */

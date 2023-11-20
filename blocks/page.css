@@ -19,10 +19,11 @@
   margin: 67px auto 60px;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 934px) {
   .page__content {
-    margin: 0 50px;
-    max-width: calc(100% - 100px);
+    /* side margins equal to the gallery grid gap */
+    margin: 0 40px;
+    max-width: calc(100% - 80px);
   }
   .page__header {
     margin: 45px 50px 40px;
@@ -42,7 +43,7 @@
   }
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 700px) {
   .page__content {
     margin: 0 19px;
     max-width: calc(100% - 38px);
