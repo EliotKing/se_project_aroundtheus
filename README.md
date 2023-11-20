@@ -7,6 +7,8 @@
 
 **Intro**
 
+[View the project here](https://eliotking.github.io/se_project_aroundtheus/)
+
 Around the U.S. is a social media app demo featuring a profile with an avatar, name, and description, and a gallery of images. The app will be developed over the course of multiple projects, each expanding on the features and functionality. Below is an overview of the elements featured in each version.
 
 **Version 1**
