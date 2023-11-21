@@ -1,14 +1,15 @@
 .card {
-  width: 282px;
-  height: 361px;
+  width: 100%;
+  min-height: 361px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
 }
 .card__image {
-  width: 282px;
-  height: 282px;
+  object-fit: cover;
+  height: 100%;
+  max-height: 282px;
 }
 .card__description {
   padding: 25px 20px;
