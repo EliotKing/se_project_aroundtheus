@@ -1,0 +1,71 @@
+.form {
+  position: relative;
+  color: #000;
+  background-color: #fff;
+  width: 100%;
+  border: 0px;
+  border-radius: 10px;
+  padding: 34px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+.form__title {
+  line-height: 24px;
+  /* The 54px gap from the design, subtracting the 30px row-gap */
+  margin: 0 0 24px;
+}
+.form__field {
+  font-size: 14px;
+  line-height: 14px;
+  padding: 0 0 12px;
+  margin: 0;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+.form__submit {
+  /* The 48px gap from the design, subtracting the 30px row-gap */
+  margin-top: 18px;
+}
+.form__close {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+}
+
+@media screen and (max-width: 700px) {
+  .form__title {
+    font-size: 22px;
+  }
+  .form__close {
+    width: 30px;
+    height: 30px;
+    /* button height (30px) + 19px + 5px
+    19px and 5px are the offsets/gaps in figma, only visible if you rotate the symbol back to its original plus position*/
+    top: -54px;
+    right: 5px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .form {
+    padding: 25px 22px;
+  }
+  .form__title {
+    font-size: 18px;
+    line-height: 22px;
+    /* The 75px gap from the design, subtracting the 30px row-gap */
+    margin: 0 0 45px;
+  }
+  .form__submit {
+    /* The 45px gap from the design, subtracting the 30px row-gap */
+    margin-top: 15px;
+    font-size: 14px;
+    height: 46px;
+  }
+  .form__close {
+    width: 26px;
+    height: 26px;
+    /* button height (26px) + 19px + 5px */
+    top: -50px;
+  }
+}
