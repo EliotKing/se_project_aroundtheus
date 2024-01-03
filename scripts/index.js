@@ -75,13 +75,10 @@ let closeButton = document.querySelector(".button_type_close");
 let profileModal = document.querySelector(".modal-window");
 
 // Modal window functions
-function openProfileModal() {
-  profileModal.classList.add("modal-window_opened");
-}
-function closeProfileModal() {
-  profileModal.classList.remove("modal-window_opened");
+function toggleProfileModal() {
+  profileModal.classList.toggle("modal-window_opened");
 }
 
 // Button event listeners
-editButton.addEventListener("click", openProfileModal);
-closeButton.addEventListener("click", closeProfileModal);
+editButton.addEventListener("click", toggleProfileModal);
+closeButton.addEventListener("click", toggleProfileModal);
