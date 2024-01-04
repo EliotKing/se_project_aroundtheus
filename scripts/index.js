@@ -69,30 +69,47 @@ function getCardElement(data) {
 // Edit Profile Functionality
 //===========================
 
-// Button variables
-let editButton = document.querySelector(".profile__edit-button");
-let closeButton = document.querySelector(".button_type_close");
-let profileModal = document.querySelector(".modal-window");
+// Constant variables
+const profileModal = document.querySelector(".modal-window");
+const profileModalForm = document.querySelector(".modal-window__form");
+const editButton = document.querySelector(".profile__edit-button");
+const closeButton = document.querySelector(".button_type_close");
 
+// Dynamic variables
 let currentProfileName;
 let currentProfileDescription;
-let newProfileName;
-let newProfileDescription;
 
-// Modal window functions
+// Event listeners
+editButton.addEventListener("click", toggleProfileModal);
+closeButton.addEventListener("click", toggleProfileModal);
+profileModalForm.addEventListener("submit", handleProfileFormSubmit);
+
+// Opens and closes the profile modal window
 function toggleProfileModal() {
+  // Selects relevant elements
   currentProfileName = document.querySelector(".profile__name");
   currentProfileDescription = document.querySelector(".profile__description");
-  newProfileName = document.querySelector(".form__field_type_name");
-  newProfileDescription = document.querySelector(
+  let newProfileName = document.querySelector(".form__field_type_name");
+  let newProfileDescription = document.querySelector(
     ".form__field_type_description"
   );
-
+  // Assigns the current profile information to the input fields
   newProfileName.value = currentProfileName.textContent;
   newProfileDescription.value = currentProfileDescription.textContent;
+  // toggles the modal window
   profileModal.classList.toggle("modal-window_opened");
 }
 
-// Button event listeners
-editButton.addEventListener("click", toggleProfileModal);
-closeButton.addEventListener("click", toggleProfileModal);
+// Copies the information from the modal form fields to the profile
+function handleProfileFormSubmit(event) {
+  event.preventDefault();
+  // Selects the text inputs in the form fields
+  let nameInput = document.querySelector(".form__field_type_name").value;
+  let descriptionInput = document.querySelector(
+    ".form__field_type_description"
+  ).value;
+  // Copies over the submitted text and closes the modal window
+  currentProfileName.textContent = nameInput;
+  currentProfileDescription.textContent = descriptionInput;
+  profileModal.classList.remove("modal-window_opened");
+}
