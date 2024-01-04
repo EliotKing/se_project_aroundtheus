@@ -71,8 +71,8 @@ function getCardElement(data) {
 //===========================
 
 // Global variables
-const profileModal = document.querySelector(".modal-window");
-const profileModalForm = document.querySelector(".modal-window__form");
+const profilePopUp = document.querySelector(".pop-up");
+const profilePopUpForm = document.querySelector(".pop-up__form");
 const editButton = document.querySelector(".profile__edit-button");
 const closeButton = document.querySelector(".button_type_close");
 const currentProfileName = document.querySelector(".profile__name");
@@ -85,24 +85,24 @@ const newProfileDescription = document.querySelector(
 );
 
 // Event listeners
-editButton.addEventListener("click", openProfileModal);
-closeButton.addEventListener("click", closeProfileModal);
-profileModalForm.addEventListener("submit", handleProfileFormSubmit);
+editButton.addEventListener("click", openProfilePopUp);
+closeButton.addEventListener("click", closeProfilePopUp);
+profilePopUpForm.addEventListener("submit", handleProfileFormSubmit);
 
 // Functions
-function openProfileModal() {
+function openProfilePopUp() {
   // Assigns the current profile information to the input fields
   newProfileName.value = currentProfileName.textContent;
   newProfileDescription.value = currentProfileDescription.textContent;
-  // displays the modal window
-  profileModal.classList.add("modal-window_opened");
+  // displays the pop-up window
+  profilePopUp.classList.add("pop-up_opened");
 }
 
-function closeProfileModal() {
-  profileModal.classList.remove("modal-window_opened");
+function closeProfilePopUp() {
+  profilePopUp.classList.remove("pop-up_opened");
 }
 
-// Copies the information from the modal form fields to the profile
+// Copies the information from the pop-up form fields to the profile
 function handleProfileFormSubmit(event) {
   event.preventDefault();
   // Selects the text inputs in the form fields
@@ -110,8 +110,8 @@ function handleProfileFormSubmit(event) {
   const descriptionInput = document.querySelector(
     ".form__field_type_description"
   ).value;
-  // Copies over the submitted text and closes the modal window
+  // Copies over the submitted text and closes the pop-up window
   currentProfileName.textContent = nameInput;
   currentProfileDescription.textContent = descriptionInput;
-  closeProfileModal();
+  closeProfilePopUp();
 }

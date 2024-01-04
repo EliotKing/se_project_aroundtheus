@@ -31,23 +31,10 @@
 .form__submit {
   margin-top: 48px;
 }
-.form__close {
-  position: absolute;
-  top: -40px;
-  right: -40px;
-}
 
 @media screen and (max-width: 700px) {
   .form__title {
     font-size: 22px;
-  }
-  .form__close {
-    width: 30px;
-    height: 30px;
-    /* button height (30px) + 19px + 5px = 54px up
-    19px and 5px are the offsets/gaps in figma, only visible if you rotate the symbol back to its original plus position*/
-    top: -54px;
-    right: 5px;
   }
 }
 
@@ -65,11 +52,5 @@
     margin-top: 45px;
     font-size: 14px;
     height: 46px;
-  }
-  .form__close {
-    width: 26px;
-    height: 26px;
-    /* button height (26px) + 19px + 5px = 50px up */
-    top: -50px;
   }
 }
