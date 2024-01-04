@@ -3,33 +3,33 @@
 //===================
 
 // Card objects
-let yosemite = {
+const yosemite = {
   name: "Yosemite Valley",
   link: "./images/yosemite.jpg",
 };
-let lakeLouise = {
+const lakeLouise = {
   name: "Lake Louise",
   link: "./images/lake-louise.jpg",
 };
-let baldMountains = {
+const baldMountains = {
   name: "Bald Mountains",
   link: "./images/bald-mountains.jpg",
 };
-let latemar = {
+const latemar = {
   name: "Latemar",
   link: "./images/latemar.jpg",
 };
-let vanoise = {
+const vanoise = {
   name: "Vanoise National Park",
   link: "./images/vanoise.jpg",
 };
-let lagoDiBraies = {
+const lagoDiBraies = {
   name: "Lago di Braies",
   link: "./images/lago-di-braies.jpg",
 };
 
 // Cards array
-let initialCards = [
+const initialCards = [
   yosemite,
   lakeLouise,
   baldMountains,
@@ -38,25 +38,26 @@ let initialCards = [
   lagoDiBraies,
 ];
 
+const cards = document.querySelector(".gallery__cards");
+
 // Loops through each object in the cards array, calls getCardElement on them, and adds them to the DOM
 for (let i = 0; i < initialCards.length; i++) {
-  let cards = document.querySelector(".gallery__cards");
-  let cardToAdd = getCardElement(initialCards[i], i);
+  const cardToAdd = getCardElement(initialCards[i]);
   cards.append(cardToAdd);
 }
 
 function getCardElement(data) {
   // Assigns the properties from the card objects to variables
-  let cardName = data.name;
-  let cardLink = data.link;
+  const cardName = data.name;
+  const cardLink = data.link;
   // Selects the card template and clones it into a variable "card"
-  let card = document
+  const card = document
     .querySelector("#card-template")
     .content.querySelector(".card")
     .cloneNode(true);
   // Selects the relevant card sub-elements and assigns them into variables
-  let cardImage = card.querySelector(".card__image");
-  let cardTitle = card.querySelector(".card__title");
+  const cardImage = card.querySelector(".card__image");
+  const cardTitle = card.querySelector(".card__title");
 
   // Sets the card values and returns the card
   cardImage.setAttribute("src", cardLink);
@@ -69,47 +70,48 @@ function getCardElement(data) {
 // Edit Profile Functionality
 //===========================
 
-// Constant variables
+// Global variables
 const profileModal = document.querySelector(".modal-window");
 const profileModalForm = document.querySelector(".modal-window__form");
 const editButton = document.querySelector(".profile__edit-button");
 const closeButton = document.querySelector(".button_type_close");
-
-// Dynamic variables
-let currentProfileName;
-let currentProfileDescription;
+const currentProfileName = document.querySelector(".profile__name");
+const currentProfileDescription = document.querySelector(
+  ".profile__description"
+);
+const newProfileName = document.querySelector(".form__field_type_name");
+const newProfileDescription = document.querySelector(
+  ".form__field_type_description"
+);
 
 // Event listeners
-editButton.addEventListener("click", toggleProfileModal);
-closeButton.addEventListener("click", toggleProfileModal);
+editButton.addEventListener("click", openProfileModal);
+closeButton.addEventListener("click", closeProfileModal);
 profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
-// Opens and closes the profile modal window
-function toggleProfileModal() {
-  // Selects relevant elements
-  currentProfileName = document.querySelector(".profile__name");
-  currentProfileDescription = document.querySelector(".profile__description");
-  let newProfileName = document.querySelector(".form__field_type_name");
-  let newProfileDescription = document.querySelector(
-    ".form__field_type_description"
-  );
+// Functions
+function openProfileModal() {
   // Assigns the current profile information to the input fields
   newProfileName.value = currentProfileName.textContent;
   newProfileDescription.value = currentProfileDescription.textContent;
-  // toggles the modal window
-  profileModal.classList.toggle("modal-window_opened");
+  // displays the modal window
+  profileModal.classList.add("modal-window_opened");
+}
+
+function closeProfileModal() {
+  profileModal.classList.remove("modal-window_opened");
 }
 
 // Copies the information from the modal form fields to the profile
 function handleProfileFormSubmit(event) {
   event.preventDefault();
   // Selects the text inputs in the form fields
-  let nameInput = document.querySelector(".form__field_type_name").value;
-  let descriptionInput = document.querySelector(
+  const nameInput = document.querySelector(".form__field_type_name").value;
+  const descriptionInput = document.querySelector(
     ".form__field_type_description"
   ).value;
   // Copies over the submitted text and closes the modal window
   currentProfileName.textContent = nameInput;
   currentProfileDescription.textContent = descriptionInput;
-  profileModal.classList.remove("modal-window_opened");
+  closeProfileModal();
 }
