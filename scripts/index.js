@@ -74,8 +74,22 @@ let editButton = document.querySelector(".profile__edit-button");
 let closeButton = document.querySelector(".button_type_close");
 let profileModal = document.querySelector(".modal-window");
 
+let currentProfileName;
+let currentProfileDescription;
+let newProfileName;
+let newProfileDescription;
+
 // Modal window functions
 function toggleProfileModal() {
+  currentProfileName = document.querySelector(".profile__name");
+  currentProfileDescription = document.querySelector(".profile__description");
+  newProfileName = document.querySelector(".form__field_type_name");
+  newProfileDescription = document.querySelector(
+    ".form__field_type_description"
+  );
+
+  newProfileName.value = currentProfileName.textContent;
+  newProfileDescription.value = currentProfileDescription.textContent;
   profileModal.classList.toggle("modal-window_opened");
 }
 
