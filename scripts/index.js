@@ -67,39 +67,100 @@ function getCardElement(data) {
 }
 
 //===========================
-// Edit Profile Functionality
+// PopUp Functionality
 //===========================
 
+// Form Objects
+const editProfile = {
+  title: "Edit Profile",
+  fields: ["Name", "Description"],
+  button: "Save",
+};
+const addCard = {
+  title: "New Place",
+  fields: ["Title", "Image URL"],
+  button: "Save",
+};
+
+function createForm(type) {
+  // Saves a clone of the form template in the variable "form"
+  const form = document
+    .querySelector("#form-template")
+    .content.querySelector(".form")
+    .cloneNode(true);
+  const title = form.querySelector(".form__title");
+  const fields = form.querySelector(".form__fields");
+  const button = form.querySelector(".form__submit");
+
+  form.classList.add("pop-up__form");
+  title.textContent = type.title;
+  // Iterates through all the values in the object's "fields" array, creating and appending
+  // a new field to the form per item, and using the given array item's value as the placeholder text
+  type.fields.forEach((item) => {
+    const field = form
+      .querySelector("#form-field-template")
+      .content.querySelector(".form__field")
+      .cloneNode(true);
+    field.placeholder = item;
+    fieldClass = "form__field_type_" + item.toLowerCase().replaceAll(" ", "-");
+    field.classList.add(fieldClass);
+    console.log(fieldClass);
+    fields.append(field);
+  });
+  button.textContent = type.button;
+  console.log(form);
+  return form;
+}
+
 // Global variables
-const profilePopUp = document.querySelector(".pop-up");
-const profilePopUpForm = document.querySelector(".pop-up__form");
+const popUp = document.querySelector(".pop-up");
+const popUpClose = popUp.querySelector(".pop-up__close");
+
 const editButton = document.querySelector(".profile__edit-button");
-const closeButton = document.querySelector(".button_type_close");
+
+const addButton = document.querySelector(".profile__add-button");
+
 const currentProfileName = document.querySelector(".profile__name");
 const currentProfileDescription = document.querySelector(
   ".profile__description"
 );
-const newProfileName = document.querySelector(".form__field_type_name");
-const newProfileDescription = document.querySelector(
-  ".form__field_type_description"
-);
 
 // Event listeners
 editButton.addEventListener("click", openProfilePopUp);
-closeButton.addEventListener("click", closeProfilePopUp);
-profilePopUpForm.addEventListener("submit", handleProfileFormSubmit);
+addButton.addEventListener("click", openGalleryPopUp);
+popUpClose.addEventListener("click", closePopUp);
 
 // Functions
+function openPopUp() {
+  popUp.classList.add("pop-up_opened");
+}
+function closePopUp() {
+  document.querySelector(".pop-up__form").remove();
+  popUp.classList.remove("pop-up_opened");
+}
 function openProfilePopUp() {
+  // Add relevent form to the DOM
+  popUpClose.before(createForm(editProfile));
+  form = document.querySelector(".form");
+
+  const newProfileName = document.querySelector(".form__field_type_name");
+  const newProfileDescription = document.querySelector(
+    ".form__field_type_description"
+  );
+
   // Assigns the current profile information to the input fields
   newProfileName.value = currentProfileName.textContent;
   newProfileDescription.value = currentProfileDescription.textContent;
-  // displays the pop-up window
-  profilePopUp.classList.add("pop-up_opened");
-}
 
-function closeProfilePopUp() {
-  profilePopUp.classList.remove("pop-up_opened");
+  form.addEventListener("submit", handleProfileFormSubmit);
+  // displays the pop-up window
+  openPopUp();
+}
+function openGalleryPopUp() {
+  // Add relevent form to the DOM
+  popUpClose.before(createForm(addCard));
+  // Open the pop-up
+  openPopUp();
 }
 
 // Copies the information from the pop-up form fields to the profile
@@ -113,5 +174,5 @@ function handleProfileFormSubmit(event) {
   // Copies over the submitted text and closes the pop-up window
   currentProfileName.textContent = nameInput;
   currentProfileDescription.textContent = descriptionInput;
-  closeProfilePopUp();
+  closePopUp();
 }

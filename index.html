@@ -58,30 +58,29 @@
     </footer>
     <div class="pop-up page__pop-up">
       <div class="pop-up__container">
-        <form class="form pop-up__form">
-          <h2 class="form__title">Edit Profile</h2>
-          <div class="form__fields">
-            <input
-              type="text"
-              name="name"
-              class="form__field form__field_type_name"
-              placeholder="Name"
-              autocomplete="off"
-              required
-            />
-            <input
-              type="text"
-              name="description"
-              class="form__field form__field_type_description"
-              placeholder="Description"
-              autocomplete="off"
-              required
-            />
-          </div>
-          <button type="submit" class="button button_type_general form__submit">
-            Save
-          </button>
-        </form>
+        <template id="form-template">
+          <form class="form">
+            <h2 class="form__title">Title</h2>
+            <ul class="form__fields">
+              <template id="form-field-template">
+                <input
+                  type="text"
+                  name=""
+                  class="form__field"
+                  placeholder="Field"
+                  autocomplete="off"
+                  required
+                />
+              </template>
+            </ul>
+            <button
+              type="submit"
+              class="button button_type_general form__submit"
+            >
+              Save
+            </button>
+          </form>
+        </template>
         <button class="button button_type_close pop-up__close"></button>
       </div>
     </div>
