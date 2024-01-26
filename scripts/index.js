@@ -41,10 +41,10 @@ const initialCards = [
 const cards = document.querySelector(".gallery__cards");
 
 // Loops through each object in the cards array, calls getCardElement on them, and adds them to the DOM
-for (let i = 0; i < initialCards.length; i++) {
-  const cardToAdd = getCardElement(initialCards[i]);
+initialCards.forEach((item) => {
+  const cardToAdd = getCardElement(item);
   cards.append(cardToAdd);
-}
+});
 
 function getCardElement(data) {
   // Assigns the properties from the card objects to variables
