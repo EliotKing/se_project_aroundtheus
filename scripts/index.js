@@ -2,7 +2,9 @@
 // Card Functionality
 //===================
 
-// Card objects
+const gallery = document.querySelector(".gallery__cards");
+
+// Initial card objects
 const yosemite = {
   name: "Yosemite Valley",
   link: "./images/yosemite.jpg",
@@ -28,7 +30,7 @@ const lagoDiBraies = {
   link: "./images/lago-di-braies.jpg",
 };
 
-// Cards array
+// Initial cards array
 const initialCards = [
   yosemite,
   lakeLouise,
@@ -38,13 +40,27 @@ const initialCards = [
   lagoDiBraies,
 ];
 
-const cards = document.querySelector(".gallery__cards");
-
 // Loops through each object in the cards array, calls getCardElement on them, and adds them to the DOM
 initialCards.forEach((item) => {
   const cardToAdd = getCardElement(item);
-  cards.append(cardToAdd);
+  gallery.append(cardToAdd);
 });
+
+// Handles adding cards through the add button
+function handleAddCard(event) {
+  event.preventDefault();
+  // Selects the text inputs in the form fields
+  const titleInput = document.querySelector(".form__field_type_title").value;
+  const imgInput = document.querySelector(".form__field_type_image-url").value;
+  // Creates a card object from the user inputs
+  const newCard = {
+    name: titleInput,
+    link: imgInput,
+  };
+  // Adds the new card at the beginning of the gallery, and closes the pop-up
+  gallery.prepend(getCardElement(newCard));
+  closePopUp();
+}
 
 function getCardElement(data) {
   // Assigns the properties from the card objects to variables
@@ -66,9 +82,9 @@ function getCardElement(data) {
   return card;
 }
 
-//===========================
-// PopUp Functionality
-//===========================
+//=====================
+// Pop-up Functionality
+//=====================
 
 // Form Objects
 const editProfile = {
@@ -159,6 +175,9 @@ function openProfilePopUp() {
 function openGalleryPopUp() {
   // Add relevent form to the DOM
   popUpClose.before(createForm(addCard));
+  form = document.querySelector(".form");
+
+  form.addEventListener("submit", handleAddCard);
   // Open the pop-up
   openPopUp();
 }
@@ -176,3 +195,22 @@ function handleProfileFormSubmit(event) {
   currentProfileDescription.textContent = descriptionInput;
   closePopUp();
 }
+
+//================
+// Unused Features
+//================
+
+// function toCamelCase(string) {
+//   let output = "";
+//   const stringWords = string.split(" ");
+//   for (let i = 0; i < stringWords.length; i++) {
+//     let word = stringWords[i];
+//     if (i === 0) {
+//       word = word.toLowerCase();
+//     } else {
+//       word = word[0].toUpperCase() + word.slice(1).toLowerCase();
+//     }
+//     output = output + word;
+//   }
+//   return output;
+// }
