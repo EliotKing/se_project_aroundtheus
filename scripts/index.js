@@ -40,6 +40,32 @@ const initialCards = [
   lagoDiBraies,
 ];
 
+function getCardElement(data) {
+  // Assigns the properties from the card objects to variables
+  const cardName = data.name;
+  const cardLink = data.link;
+  // Selects the card template and clones it into a variable "card"
+  const card = document
+    .querySelector("#card-template")
+    .content.querySelector(".card")
+    .cloneNode(true);
+  // Selects the relevant card sub-elements and assigns them into variables
+  const cardImage = card.querySelector(".card__image");
+  const cardTitle = card.querySelector(".card__title");
+  const cardLikeButton = card.querySelector(".card__like-button");
+  // handles like button functionality
+  cardLikeButton.addEventListener("click", function (evt) {
+    evt.target.classList.toggle("card__like-button_pressed");
+    console.log(evt.target);
+  });
+
+  // Sets the card values and returns the card
+  cardImage.setAttribute("src", cardLink);
+  cardImage.setAttribute("alt", cardName);
+  cardTitle.textContent = cardName;
+  return card;
+}
+
 // Loops through each object in the cards array, calls getCardElement on them, and adds them to the DOM
 initialCards.forEach((item) => {
   const cardToAdd = getCardElement(item);
@@ -60,26 +86,6 @@ function handleAddCard(event) {
   // Adds the new card at the beginning of the gallery, and closes the pop-up
   gallery.prepend(getCardElement(newCard));
   closePopUp();
-}
-
-function getCardElement(data) {
-  // Assigns the properties from the card objects to variables
-  const cardName = data.name;
-  const cardLink = data.link;
-  // Selects the card template and clones it into a variable "card"
-  const card = document
-    .querySelector("#card-template")
-    .content.querySelector(".card")
-    .cloneNode(true);
-  // Selects the relevant card sub-elements and assigns them into variables
-  const cardImage = card.querySelector(".card__image");
-  const cardTitle = card.querySelector(".card__title");
-
-  // Sets the card values and returns the card
-  cardImage.setAttribute("src", cardLink);
-  cardImage.setAttribute("alt", cardName);
-  cardTitle.textContent = cardName;
-  return card;
 }
 
 //=====================

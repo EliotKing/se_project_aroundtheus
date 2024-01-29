@@ -27,3 +27,6 @@
   white-space: nowrap;
   overflow: hidden;
 }
+.card__like-button_pressed {
+  background: url(../images/icon-like_pressed.svg);
+}
