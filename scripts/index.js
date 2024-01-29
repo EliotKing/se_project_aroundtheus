@@ -79,7 +79,7 @@ const editProfile = {
 const addCard = {
   title: "New Place",
   fields: ["Title", "Image URL"],
-  button: "Save",
+  button: "Create",
 };
 
 function createForm(type) {
