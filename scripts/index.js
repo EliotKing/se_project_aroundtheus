@@ -1,6 +1,123 @@
-//===================
-// Card Functionality
-//===================
+//=========================
+// General Form and Pop-up
+//=========================
+
+// Select the pop-up window and close button from the DOM, save them into variables, and add an event listener to the button
+const popUp = document.querySelector(".pop-up");
+const popUpClose = popUp.querySelector(".pop-up__close");
+popUpClose.addEventListener("click", closePopUp);
+
+// General Pop-up Functions
+function openPopUp() {
+  popUp.classList.add("pop-up_opened");
+}
+function closePopUp() {
+  popUp.querySelector(".pop-up__form").remove();
+  popUp.classList.remove("pop-up_opened");
+}
+
+// Form Objects
+const editProfile = {
+  title: "Edit Profile",
+  fields: ["Name", "Description"],
+  button: "Save",
+};
+const addCard = {
+  title: "New Place",
+  fields: ["Title", "Image URL"],
+  button: "Create",
+};
+
+function getForm(type) {
+  // Save a clone of the form template in the variable "form"
+  const form = document
+    .querySelector("#form-template")
+    .content.querySelector(".form")
+    .cloneNode(true);
+
+  // Store all the relevent form elements into variables
+  const title = form.querySelector(".form__title");
+  const fields = form.querySelector(".form__fields");
+  const button = form.querySelector(".form__submit");
+
+  form.classList.add("pop-up__form");
+
+  // Set the relevant values of the DOM elements to those of the input object
+  title.textContent = type.title;
+  // Iterate through each value in the input object's "fields" array, creating and appending a new field to the form per item,
+  // and using the value of the respective array item as the field's name and placeholder text
+  type.fields.forEach((item) => {
+    const field = form
+      .querySelector("#form-field-template")
+      .content.querySelector(".form__field")
+      .cloneNode(true);
+    field.name = item;
+    field.placeholder = item;
+    fieldClass = "form__field_type_" + item.toLowerCase().replaceAll(" ", "-");
+    field.classList.add(fieldClass);
+    // console.log(fieldClass);
+    fields.append(field);
+  });
+  button.textContent = type.button;
+  // console.log(form);
+
+  // Remove the form field template so there aren't duplicates
+  form.querySelector("#form-field-template").remove();
+
+  // Return the finished form element
+  return form;
+}
+
+function placeForm(type, handler) {
+  // Create the form and add it to the DOM: placed after the template and before the close button
+  popUpClose.before(getForm(type));
+  const form = document.querySelector(".form");
+  form.addEventListener("submit", handler);
+}
+
+//=========
+// Profile
+//=========
+
+// Save the profile name and description into variables
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+
+// Initialize the form input variables: dynamic since the form does not exist at initialization
+let nameInput;
+let descriptionInput;
+
+// Edit Button
+const editButton = document.querySelector(".profile__edit-button");
+// Edit button event listener and handler
+editButton.addEventListener("click", () => {
+  placeForm(editProfile, handleEditProfile);
+
+  // Select the form fields and assign them to the input variables
+  nameInput = document.querySelector(".form__field_type_name");
+  descriptionInput = document.querySelector(".form__field_type_description");
+
+  // Assign the current profile information to the input fields
+  nameInput.value = profileName.textContent;
+  descriptionInput.value = profileDescription.textContent;
+
+  openPopUp();
+});
+
+// Save Button
+function handleEditProfile(evt) {
+  evt.preventDefault();
+
+  // Copy inputs to the profile
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+
+  closePopUp();
+}
+
+//=========
+// Gallery
+//=========
 
 const gallery = document.querySelector(".gallery__cards");
 
@@ -41,172 +158,75 @@ const initialCards = [
 ];
 
 function getCardElement(data) {
-  // Assigns the properties from the card objects to variables
-  const cardName = data.name;
-  const cardLink = data.link;
-  // Selects the card template and clones it into a variable "card"
+  // Select the card template and clone it into a variable "card"
   const card = document
     .querySelector("#card-template")
     .content.querySelector(".card")
     .cloneNode(true);
-  // Selects the relevant card sub-elements and assigns them into variables
+
+  // Assign the Name and Link from the input object into variables
+  const cardName = data.name;
+  const cardLink = data.link;
+  // Assign the Title and Image from the DOM into variables
   const cardImage = card.querySelector(".card__image");
   const cardTitle = card.querySelector(".card__title");
-  const cardLikeButton = card.querySelector(".card__like-button");
-  // handles like button functionality
-  cardLikeButton.addEventListener("click", function (evt) {
-    evt.target.classList.toggle("card__like-button_pressed");
-    console.log(evt.target);
-  });
-
-  // Sets the card values and returns the card
+  // Set the relevant values of the DOM elements to those of the input object
   cardImage.setAttribute("src", cardLink);
   cardImage.setAttribute("alt", cardName);
   cardTitle.textContent = cardName;
+
+  // Like button
+  const cardLike = card.querySelector(".card__like-button");
+  cardLike.addEventListener("click", function (evt) {
+    evt.target.classList.toggle("card__like-button_pressed");
+  });
+
+  // Delete button
+  const cardDelete = card.querySelector(".card__delete-button");
+  cardDelete.addEventListener("click", function (evt) {
+    evt.target.parentElement.remove();
+  });
+
+  // Return the finished card element
   return card;
 }
 
-// Loops through each object in the cards array, calls getCardElement on them, and adds them to the DOM
+// Loop through each object in the initialCards array, call getCardElement on them, then add them to the DOM
 initialCards.forEach((item) => {
   const cardToAdd = getCardElement(item);
   gallery.append(cardToAdd);
 });
 
-// Handles adding cards through the add button
-function handleAddCard(event) {
-  event.preventDefault();
-  // Selects the text inputs in the form fields
+// Add button
+const addButton = document.querySelector(".profile__add-button");
+addButton.addEventListener("click", () => {
+  placeForm(addCard, handleAddCard);
+  openPopUp();
+});
+
+// Handle adding cards through the add button
+function handleAddCard(evt) {
+  evt.preventDefault();
+
+  // Select the form fields and assign them to the input variables
   const titleInput = document.querySelector(".form__field_type_title").value;
   const imgInput = document.querySelector(".form__field_type_image-url").value;
-  // Creates a card object from the user inputs
+
+  // Create a card object from the user inputs and add it at the beginning of the gallery
   const newCard = {
     name: titleInput,
     link: imgInput,
   };
-  // Adds the new card at the beginning of the gallery, and closes the pop-up
   gallery.prepend(getCardElement(newCard));
+
   closePopUp();
 }
 
-//=====================
-// Pop-up Functionality
-//=====================
-
-// Form Objects
-const editProfile = {
-  title: "Edit Profile",
-  fields: ["Name", "Description"],
-  button: "Save",
-};
-const addCard = {
-  title: "New Place",
-  fields: ["Title", "Image URL"],
-  button: "Create",
-};
-
-function createForm(type) {
-  // Saves a clone of the form template in the variable "form"
-  const form = document
-    .querySelector("#form-template")
-    .content.querySelector(".form")
-    .cloneNode(true);
-  const title = form.querySelector(".form__title");
-  const fields = form.querySelector(".form__fields");
-  const button = form.querySelector(".form__submit");
-
-  form.classList.add("pop-up__form");
-  title.textContent = type.title;
-  // Iterates through all the values in the object's "fields" array, creating and appending
-  // a new field to the form per item, and using the given array item's value as the placeholder text
-  type.fields.forEach((item) => {
-    const field = form
-      .querySelector("#form-field-template")
-      .content.querySelector(".form__field")
-      .cloneNode(true);
-    field.placeholder = item;
-    fieldClass = "form__field_type_" + item.toLowerCase().replaceAll(" ", "-");
-    field.classList.add(fieldClass);
-    console.log(fieldClass);
-    fields.append(field);
-  });
-  button.textContent = type.button;
-  console.log(form);
-  return form;
-}
-
-// Global variables
-const popUp = document.querySelector(".pop-up");
-const popUpClose = popUp.querySelector(".pop-up__close");
-
-const editButton = document.querySelector(".profile__edit-button");
-
-const addButton = document.querySelector(".profile__add-button");
-
-const currentProfileName = document.querySelector(".profile__name");
-const currentProfileDescription = document.querySelector(
-  ".profile__description"
-);
-
-// Event listeners
-editButton.addEventListener("click", openProfilePopUp);
-addButton.addEventListener("click", openGalleryPopUp);
-popUpClose.addEventListener("click", closePopUp);
-
-// Functions
-function openPopUp() {
-  popUp.classList.add("pop-up_opened");
-}
-function closePopUp() {
-  document.querySelector(".pop-up__form").remove();
-  popUp.classList.remove("pop-up_opened");
-}
-function openProfilePopUp() {
-  // Add relevent form to the DOM
-  popUpClose.before(createForm(editProfile));
-  form = document.querySelector(".form");
-
-  const newProfileName = document.querySelector(".form__field_type_name");
-  const newProfileDescription = document.querySelector(
-    ".form__field_type_description"
-  );
-
-  // Assigns the current profile information to the input fields
-  newProfileName.value = currentProfileName.textContent;
-  newProfileDescription.value = currentProfileDescription.textContent;
-
-  form.addEventListener("submit", handleProfileFormSubmit);
-  // displays the pop-up window
-  openPopUp();
-}
-function openGalleryPopUp() {
-  // Add relevent form to the DOM
-  popUpClose.before(createForm(addCard));
-  form = document.querySelector(".form");
-
-  form.addEventListener("submit", handleAddCard);
-  // Open the pop-up
-  openPopUp();
-}
-
-// Copies the information from the pop-up form fields to the profile
-function handleProfileFormSubmit(event) {
-  event.preventDefault();
-  // Selects the text inputs in the form fields
-  const nameInput = document.querySelector(".form__field_type_name").value;
-  const descriptionInput = document.querySelector(
-    ".form__field_type_description"
-  ).value;
-  // Copies over the submitted text and closes the pop-up window
-  currentProfileName.textContent = nameInput;
-  currentProfileDescription.textContent = descriptionInput;
-  closePopUp();
-}
-
-//================
+//=================
 // Unused Features
-//================
+//=================
 
-// function toCamelCase(string) {
+// function makeCamelCase(string) {
 //   let output = "";
 //   const stringWords = string.split(" ");
 //   for (let i = 0; i < stringWords.length; i++) {
