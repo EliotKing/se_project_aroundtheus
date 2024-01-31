@@ -13,7 +13,12 @@
 .pop-up__container {
   position: relative;
   width: 100%;
+}
+.pop-up__container_type_form {
   max-width: 430px;
+}
+.pop-up__container_type_image {
+  max-width: min-content;
 }
 .pop-up__form {
   /* Subtracted the side padding so the full form max width matches the design */
@@ -25,14 +30,26 @@
   right: -40px;
 }
 
+@media screen and (max-width: 934px) {
+  .pop-up__close_type_image {
+    width: 30px;
+    height: 30px;
+    top: -30px;
+    right: -30px;
+  }
+}
+
 @media screen and (max-width: 700px) {
-  .pop-up__container {
+  .pop-up__container_type_form {
     max-width: 372px;
+  }
+  .pop-up__container_type_image {
+    max-width: min-content;
   }
   .pop-up__form {
     max-width: 300px;
   }
-  .pop-up__close {
+  .pop-up__close_type_form {
     width: 30px;
     height: 30px;
     /* button height (30px) + 19px + 5px = 54px up
@@ -43,14 +60,17 @@
 }
 
 @media screen and (max-width: 520px) {
-  .pop-up__container {
+  .pop-up__container_type_form {
     max-width: 282px;
+  }
+  .pop-up__container_type_image {
+    max-width: min-content;
   }
   .pop-up__form {
     /* Subtracted the side padding (44px) so the full form max width matches the design (282px) */
     max-width: 238px;
   }
-  .pop-up__close {
+  .pop-up__close_type_form {
     width: 26px;
     height: 26px;
     /* button height (26px) + 19px + 5px = 50px up */

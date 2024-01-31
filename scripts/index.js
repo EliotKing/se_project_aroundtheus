@@ -4,6 +4,7 @@
 
 // Select the pop-up window and close button from the DOM, save them into variables, and add an event listener to the button
 const popUp = document.querySelector(".pop-up");
+const popUpContainer = popUp.querySelector(".pop-up__container");
 const popUpClose = popUp.querySelector(".pop-up__close");
 popUpClose.addEventListener("click", closePopUp);
 
@@ -12,7 +13,22 @@ function openPopUp() {
   popUp.classList.add("pop-up_opened");
 }
 function closePopUp() {
-  popUp.querySelector(".pop-up__form").remove();
+  // Check if there is an element with classes before the close button (i.e. a pop-up has successfully been opened). If there is, remove the element
+  // This ensures that the template elements aren't ever deleted accidentally
+  const contentToClose = popUpClose.previousSibling;
+  if (contentToClose.classList != undefined) {
+    contentToClose.remove();
+  }
+  // Reset the pop-up container and close button to their default classes
+  popUpContainer.classList.remove(
+    "pop-up__container_type_form",
+    "pop-up__container_type_image"
+  );
+  popUpClose.classList.remove(
+    "pop-up__close_type_form",
+    "pop-up__close_type_image"
+  );
+  // Hide the pop-up window
   popUp.classList.remove("pop-up_opened");
 }
 
@@ -28,6 +44,7 @@ const addCard = {
   button: "Create",
 };
 
+// Take a form object as an argument, generate a form using the object's values, and return the form
 function getForm(type) {
   // Save a clone of the form template in the variable "form"
   const form = document
@@ -68,7 +85,11 @@ function getForm(type) {
   return form;
 }
 
+// Take a form object and handler function name as arguments, and add the respective form to the DOM
 function placeForm(type, handler) {
+  // Enable the correct styles for the pop-up and close button
+  popUpContainer.classList.add("pop-up__container_type_form");
+  popUpClose.classList.add("pop-up__close_type_form");
   // Create the form and add it to the DOM: placed after the template and before the close button
   popUpClose.before(getForm(type));
   const form = document.querySelector(".form");
@@ -157,7 +178,8 @@ const initialCards = [
   lagoDiBraies,
 ];
 
-function getCardElement(data) {
+//
+function getCard(place) {
   // Select the card template and clone it into a variable "card"
   const card = document
     .querySelector("#card-template")
@@ -165,8 +187,8 @@ function getCardElement(data) {
     .cloneNode(true);
 
   // Assign the Name and Link from the input object into variables
-  const cardName = data.name;
-  const cardLink = data.link;
+  const cardName = place.name;
+  const cardLink = place.link;
   // Assign the Title and Image from the DOM into variables
   const cardImage = card.querySelector(".card__image");
   const cardTitle = card.querySelector(".card__title");
@@ -174,6 +196,8 @@ function getCardElement(data) {
   cardImage.setAttribute("src", cardLink);
   cardImage.setAttribute("alt", cardName);
   cardTitle.textContent = cardName;
+  // Add event listener to the image
+  cardImage.addEventListener("click", openImage);
 
   // Like button
   const cardLike = card.querySelector(".card__like-button");
@@ -191,9 +215,9 @@ function getCardElement(data) {
   return card;
 }
 
-// Loop through each object in the initialCards array, call getCardElement on them, then add them to the DOM
+// Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
 initialCards.forEach((item) => {
-  const cardToAdd = getCardElement(item);
+  const cardToAdd = getCard(item);
   gallery.append(cardToAdd);
 });
 
@@ -217,9 +241,37 @@ function handleAddCard(evt) {
     name: titleInput,
     link: imgInput,
   };
-  gallery.prepend(getCardElement(newCard));
+  gallery.prepend(getCard(newCard));
 
   closePopUp();
+}
+
+// Image Pop-up Window
+function openImage(evt) {
+  // Enable the correct styles for the pop-up and close button
+  popUpContainer.classList.add("pop-up__container_type_image");
+  popUpClose.classList.add("pop-up__close_type_image");
+
+  // Store the selected image in a variable
+  const cardImage = evt.target;
+
+  // Clone the image window template and select its relevant children
+  const imageWindow = document
+    .querySelector("#image-window-template")
+    .content.querySelector(".image-window")
+    .cloneNode(true);
+  const openedImage = imageWindow.querySelector(".image-window__image");
+  const text = imageWindow.querySelector(".image-window__text");
+
+  // Copy the data from the opened image to the pop-up window
+  openedImage.src = cardImage.src;
+  openedImage.alt = cardImage.alt;
+  text.textContent = cardImage.alt;
+
+  // Add the image window to the DOM: placed after the template and before the close button
+  popUpClose.before(imageWindow);
+
+  openPopUp();
 }
 
 //=================

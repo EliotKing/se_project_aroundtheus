@@ -1,0 +1,25 @@
+.image-window {
+  position: relative;
+  width: max-content;
+  max-width: 75vw;
+  display: flex;
+}
+.image-window__image {
+  object-fit: contain;
+  width: min-content;
+  max-height: 75vh;
+  max-width: 100%;
+}
+.image-window__text {
+  position: absolute;
+  height: min-content;
+  width: max-content;
+  max-width: 100%;
+  margin: 0px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  /* 10px gap from the design + 12px font size */
+  bottom: -22px;
+}
