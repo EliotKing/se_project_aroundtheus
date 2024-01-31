@@ -10,9 +10,18 @@ popUpClose.addEventListener("click", closePopUp);
 
 // General Pop-up Functions
 function openPopUp() {
-  popUp.classList.add("pop-up_opened");
+  popUp.classList.add("pop-up_mode_open");
 }
 function closePopUp() {
+  popUp.classList.add("pop-up_mode_closing");
+  // Event listener to detect when the pop-up is done fading away, then call resetPopUp to finish the process
+  popUp.addEventListener("mouseleave", (evt) => {
+    resetPopUp();
+  });
+}
+
+// Reset the pop-up element to its original state and delete form/image elements
+function resetPopUp() {
   // Check if there is an element with classes before the close button (i.e. a pop-up has successfully been opened). If there is, remove the element
   // This ensures that the template elements aren't ever deleted accidentally
   const contentToClose = popUpClose.previousSibling;
@@ -28,8 +37,8 @@ function closePopUp() {
     "pop-up__close_type_form",
     "pop-up__close_type_image"
   );
-  // Hide the pop-up window
-  popUp.classList.remove("pop-up_opened");
+  // Disable the pop-up window
+  popUp.classList.remove("pop-up_mode_open", "pop-up_mode_closing");
 }
 
 // Form Objects
@@ -178,7 +187,7 @@ const initialCards = [
   lagoDiBraies,
 ];
 
-//
+// Take an object as an argument and use its values to generate and return a card element
 function getCard(place) {
   // Select the card template and clone it into a variable "card"
   const card = document
