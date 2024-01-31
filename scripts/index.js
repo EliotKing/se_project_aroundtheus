@@ -15,9 +15,7 @@ function openPopUp() {
 function closePopUp() {
   popUp.classList.add("pop-up_mode_closing");
   // Event listener to detect when the pop-up is done fading away, then call resetPopUp to finish the process
-  popUp.addEventListener("mouseleave", (evt) => {
-    resetPopUp();
-  });
+  popUp.addEventListener("mouseleave", resetPopUp);
 }
 
 // Reset the pop-up element to its original state and delete form/image elements
@@ -37,8 +35,9 @@ function resetPopUp() {
     "pop-up__close_type_form",
     "pop-up__close_type_image"
   );
-  // Disable the pop-up window
+  // Disable the pop-up window and remove the event listener
   popUp.classList.remove("pop-up_mode_open", "pop-up_mode_closing");
+  popUp.removeEventListener("mouseleave", resetPopUp);
 }
 
 // Form Objects
