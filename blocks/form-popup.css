@@ -1,0 +1,40 @@
+.form-popup__container {
+  max-width: 430px;
+}
+.form-popup__form {
+  /* Subtracted the side padding so the full form max width matches the design */
+  max-width: 358px;
+}
+
+@media screen and (max-width: 700px) {
+  .form-popup__container {
+    max-width: 372px;
+  }
+  .form-popup__form {
+    max-width: 300px;
+  }
+  .form-popup__close {
+    width: 30px;
+    height: 30px;
+    /* button height (30px) + 19px + 5px = 54px up
+    19px and 5px are the offsets/gaps in figma, only visible if you rotate the symbol back to its original plus position*/
+    top: -54px;
+    right: 5px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .form-popup__container {
+    max-width: 282px;
+  }
+  .form-popup__form {
+    /* Subtracted the side padding (44px) so the full form max width matches the design (282px) */
+    max-width: 238px;
+  }
+  .form-popup__close {
+    width: 26px;
+    height: 26px;
+    /* button height (26px) + 19px + 5px = 50px up */
+    top: -50px;
+  }
+}

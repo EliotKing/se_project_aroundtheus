@@ -60,38 +60,91 @@
     <footer class="footer page__footer">
       <p class="footer__copyright">&copy; 2023 Around The U.S.</p>
     </footer>
-    <div class="pop-up page__pop-up">
-      <div class="pop-up__container">
-        <template id="form-template">
-          <form class="form">
-            <h2 class="form__title">Title</h2>
-            <ul class="form__fields">
-              <template id="form-field-template">
-                <input
-                  type="text"
-                  name=""
-                  class="form__field"
-                  placeholder="Field"
-                  autocomplete="off"
-                  required
-                />
-              </template>
-            </ul>
-            <button
-              type="submit"
-              class="button button_type_general form__submit"
-            >
-              Save
-            </button>
-          </form>
-        </template>
-        <template id="image-window-template">
-          <div class="image-window">
-            <img src="" alt="" class="image-window__image" />
-            <p class="image-window__text"></p>
+    <div class="popup page__popup form-popup profile-popup">
+      <div
+        class="popup__container form-popup__container profile-popup__container"
+      >
+        <form class="form form-popup__form profile-popup__form">
+          <h2 class="form__title form-popup__title profile-popup__title">
+            Edit Profile
+          </h2>
+          <div class="form__fields form-popup__fields profile-popup__fields">
+            <input
+              type="text"
+              name="Name"
+              class="form__field form-popup__field profile-popup__name"
+              placeholder="Name"
+              autocomplete="off"
+              required
+            />
+            <input
+              type="text"
+              name="Description"
+              class="form__field form-popup__field profile-popup__description"
+              placeholder="Description"
+              autocomplete="off"
+              required
+            />
           </div>
-        </template>
-        <button class="button button_type_close pop-up__close"></button>
+          <button
+            type="submit"
+            class="button button_type_general form__submit form-popup__submit profile-popup__submit"
+          >
+            Save
+          </button>
+        </form>
+        <button
+          class="button button_type_close popup__close form-popup__close profile-popup__close"
+        ></button>
+      </div>
+    </div>
+    <div class="popup page__popup form-popup add-card-popup">
+      <div
+        class="popup__container form-popup__container add-card-popup__container"
+      >
+        <form class="form form-popup__form add-card-popup__form">
+          <h2 class="form__title form-popup__title add-card-popup__title">
+            New Place
+          </h2>
+          <div class="form__fields form-popup__fields add-card-popup__fields">
+            <input
+              type="text"
+              name="Title"
+              class="form__field form-popup__field add-card-popup__place"
+              placeholder="Title"
+              autocomplete="off"
+              required
+            />
+            <input
+              type="text"
+              name="Image URL"
+              class="form__field form-popup__field add-card-popup__image-url"
+              placeholder="Image URL"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="button button_type_general form__submit form-popup__submit add-card-popup__submit"
+          >
+            Create
+          </button>
+        </form>
+        <button
+          class="button button_type_close popup__close form-popup__close add-card-popup__close"
+        ></button>
+      </div>
+    </div>
+    <div class="popup page__popup image-popup">
+      <div class="popup__container image-popup__container">
+        <div class="image-popup__window">
+          <img src="" alt="" class="image-popup__image" />
+          <p class="image-popup__text"></p>
+        </div>
+        <button
+          class="button button_type_close popup__close image-popup__close"
+        ></button>
       </div>
     </div>
     <script src="./scripts/index.js" defer></script>

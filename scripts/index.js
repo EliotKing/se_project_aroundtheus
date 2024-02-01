@@ -1,107 +1,60 @@
-//=========================
-// General Form and Pop-up
-//=========================
+//===========================
+// General Popup and Buttons
+//===========================
 
-// Select the pop-up window and close button from the DOM, save them into variables, and add an event listener to the button
-const popUp = document.querySelector(".pop-up");
-const popUpContainer = popUp.querySelector(".pop-up__container");
-const popUpClose = popUp.querySelector(".pop-up__close");
-popUpClose.addEventListener("click", closePopUp);
-
-// General Pop-up Functions
-function openPopUp() {
-  popUp.classList.add("pop-up_mode_open");
+// General Popup Functions
+function openPopUp(type) {
+  type.classList.add("popup_opened");
 }
-function closePopUp() {
-  popUp.classList.add("pop-up_mode_closing");
-  // Event listener to detect when the pop-up is done fading away, then call resetPopUp to finish the process
-  popUp.addEventListener("mouseleave", resetPopUp);
+function closePopUp(type) {
+  type.classList.remove("popup_opened");
+  resetPopUp(type);
 }
-
-// Reset the pop-up element to its original state and delete form/image elements
-function resetPopUp() {
-  // Check if there is an element with classes before the close button (i.e. a pop-up has successfully been opened). If there is, remove the element
-  // This ensures that the template elements aren't ever deleted accidentally
-  const contentToClose = popUpClose.previousSibling;
-  if (contentToClose.classList != undefined) {
-    contentToClose.remove();
+function resetPopUp(type) {
+  if (type === cardAddPopUp) {
+    const title = cardAddPopUp.querySelector(".add-card-popup__place");
+    const url = cardAddPopUp.querySelector(".add-card-popup__image-url");
+    title.value = "";
+    url.value = "";
   }
-  // Reset the pop-up container and close button to their default classes
-  popUpContainer.classList.remove(
-    "pop-up__container_type_form",
-    "pop-up__container_type_image"
-  );
-  popUpClose.classList.remove(
-    "pop-up__close_type_form",
-    "pop-up__close_type_image"
-  );
-  // Disable the pop-up window and remove the event listener
-  popUp.classList.remove("pop-up_mode_open", "pop-up_mode_closing");
-  popUp.removeEventListener("mouseleave", resetPopUp);
 }
 
-// Form Objects
-const editProfile = {
-  title: "Edit Profile",
-  fields: ["Name", "Description"],
-  button: "Save",
-};
-const addCard = {
-  title: "New Place",
-  fields: ["Title", "Image URL"],
-  button: "Create",
-};
-
-// Take a form object as an argument, generate a form using the object's values, and return the form
-function getForm(type) {
-  // Save a clone of the form template in the variable "form"
-  const form = document
-    .querySelector("#form-template")
-    .content.querySelector(".form")
-    .cloneNode(true);
-
-  // Store all the relevent form elements into variables
-  const title = form.querySelector(".form__title");
-  const fields = form.querySelector(".form__fields");
-  const button = form.querySelector(".form__submit");
-
-  form.classList.add("pop-up__form");
-
-  // Set the relevant values of the DOM elements to those of the input object
-  title.textContent = type.title;
-  // Iterate through each value in the input object's "fields" array, creating and appending a new field to the form per item,
-  // and using the value of the respective array item as the field's name and placeholder text
-  type.fields.forEach((item) => {
-    const field = form
-      .querySelector("#form-field-template")
-      .content.querySelector(".form__field")
-      .cloneNode(true);
-    field.name = item;
-    field.placeholder = item;
-    fieldClass = "form__field_type_" + item.toLowerCase().replaceAll(" ", "-");
-    field.classList.add(fieldClass);
-    // console.log(fieldClass);
-    fields.append(field);
+// Add event listeners to buttons
+function addCloseListener(type) {
+  const closeButton = type.querySelector(".popup__close");
+  closeButton.addEventListener("click", () => {
+    closePopUp(type);
   });
-  button.textContent = type.button;
-  // console.log(form);
-
-  // Remove the form field template so there aren't duplicates
-  form.querySelector("#form-field-template").remove();
-
-  // Return the finished form element
-  return form;
 }
+function addSubmitListener(type) {
+  const submitButton = type.querySelector(".form__submit");
 
-// Take a form object and handler function name as arguments, and add the respective form to the DOM
-function placeForm(type, handler) {
-  // Enable the correct styles for the pop-up and close button
-  popUpContainer.classList.add("pop-up__container_type_form");
-  popUpClose.classList.add("pop-up__close_type_form");
-  // Create the form and add it to the DOM: placed after the template and before the close button
-  popUpClose.before(getForm(type));
-  const form = document.querySelector(".form");
-  form.addEventListener("submit", handler);
+  submitButton.addEventListener("click", (evt) => {
+    evt.preventDefault();
+
+    if (type === profilePopUp) {
+      // Copy inputs to the profile
+      profileName.textContent = nameInput.value;
+      profileDescription.textContent = descriptionInput.value;
+    } else if (type === cardAddPopUp) {
+      // Select the form fields and assign them to the input variables
+      const titleInput = cardAddPopUp.querySelector(
+        ".add-card-popup__place"
+      ).value;
+      const imgInput = cardAddPopUp.querySelector(
+        ".add-card-popup__image-url"
+      ).value;
+
+      // Create a card element from the user inputs and add it at the beginning of the gallery
+      const newCard = {
+        name: titleInput,
+        link: imgInput,
+      };
+      gallery.prepend(getCard(newCard));
+    }
+
+    closePopUp(type);
+  });
 }
 
 //=========
@@ -112,43 +65,44 @@ function placeForm(type, handler) {
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
-// Initialize the form input variables: dynamic since the form does not exist at initialization
-let nameInput;
-let descriptionInput;
+// Select the profile popup and input fields
+const profilePopUp = document.querySelector(".profile-popup");
+const nameInput = profilePopUp.querySelector(".profile-popup__name");
+const descriptionInput = document.querySelector(".profile-popup__description");
 
 // Edit Button
 const editButton = document.querySelector(".profile__edit-button");
 // Edit button event listener and handler
 editButton.addEventListener("click", () => {
-  placeForm(editProfile, handleEditProfile);
-
-  // Select the form fields and assign them to the input variables
-  nameInput = document.querySelector(".form__field_type_name");
-  descriptionInput = document.querySelector(".form__field_type_description");
-
   // Assign the current profile information to the input fields
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
 
-  openPopUp();
+  openPopUp(profilePopUp);
 });
 
-// Save Button
-function handleEditProfile(evt) {
-  evt.preventDefault();
-
-  // Copy inputs to the profile
-  profileName.textContent = nameInput.value;
-  profileDescription.textContent = descriptionInput.value;
-
-  closePopUp();
-}
+// Close and Save Buttons
+addCloseListener(profilePopUp);
+addSubmitListener(profilePopUp);
 
 //=========
 // Gallery
 //=========
 
 const gallery = document.querySelector(".gallery__cards");
+const cardAddPopUp = document.querySelector(".add-card-popup");
+const imagePopUp = document.querySelector(".image-popup");
+
+// Add button
+const cardAddButton = document.querySelector(".profile__add-button");
+cardAddButton.addEventListener("click", () => {
+  openPopUp(cardAddPopUp);
+});
+
+// Close and Save Buttons
+addCloseListener(cardAddPopUp);
+addSubmitListener(cardAddPopUp);
+addCloseListener(imagePopUp);
 
 // Initial card objects
 const yosemite = {
@@ -185,6 +139,12 @@ const initialCards = [
   vanoise,
   lagoDiBraies,
 ];
+
+// Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
+initialCards.forEach((item) => {
+  const cardToAdd = getCard(item);
+  gallery.append(cardToAdd);
+});
 
 // Take an object as an argument and use its values to generate and return a card element
 function getCard(place) {
@@ -223,68 +183,26 @@ function getCard(place) {
   return card;
 }
 
-// Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
-initialCards.forEach((item) => {
-  const cardToAdd = getCard(item);
-  gallery.append(cardToAdd);
-});
-
-// Add button
-const addButton = document.querySelector(".profile__add-button");
-addButton.addEventListener("click", () => {
-  placeForm(addCard, handleAddCard);
-  openPopUp();
-});
-
-// Handle adding cards through the add button
-function handleAddCard(evt) {
-  evt.preventDefault();
-
-  // Select the form fields and assign them to the input variables
-  const titleInput = document.querySelector(".form__field_type_title").value;
-  const imgInput = document.querySelector(".form__field_type_image-url").value;
-
-  // Create a card object from the user inputs and add it at the beginning of the gallery
-  const newCard = {
-    name: titleInput,
-    link: imgInput,
-  };
-  gallery.prepend(getCard(newCard));
-
-  closePopUp();
-}
-
-// Image Pop-up Window
+// Image Popup Window: event listener created in getCard()
 function openImage(evt) {
-  // Enable the correct styles for the pop-up and close button
-  popUpContainer.classList.add("pop-up__container_type_image");
-  popUpClose.classList.add("pop-up__close_type_image");
-
   // Store the selected image in a variable
   const cardImage = evt.target;
 
   // Clone the image window template and select its relevant children
-  const imageWindow = document
-    .querySelector("#image-window-template")
-    .content.querySelector(".image-window")
-    .cloneNode(true);
-  const openedImage = imageWindow.querySelector(".image-window__image");
-  const text = imageWindow.querySelector(".image-window__text");
+  const openedImage = imagePopUp.querySelector(".image-popup__image");
+  const text = imagePopUp.querySelector(".image-popup__text");
 
-  // Copy the data from the opened image to the pop-up window
+  // Copy the data from the opened image to the popup window
   openedImage.src = cardImage.src;
   openedImage.alt = cardImage.alt;
   text.textContent = cardImage.alt;
 
-  // Add the image window to the DOM: placed after the template and before the close button
-  popUpClose.before(imageWindow);
-
-  openPopUp();
+  openPopUp(imagePopUp);
 }
 
-//=================
-// Unused Features
-//=================
+//=============================
+// Unused and Removed Features
+//=============================
 
 // function makeCamelCase(string) {
 //   let output = "";
@@ -299,4 +217,65 @@ function openImage(evt) {
 //     output = output + word;
 //   }
 //   return output;
+// }
+
+// const editProfile = {
+//   title: "Edit Profile",
+//   fields: ["Name", "Description"],
+//   button: "Save",
+// };
+// const addCard = {
+//   title: "New Place",
+//   fields: ["Title", "Image URL"],
+//   button: "Create",
+// };
+
+// function getForm(type) {
+//   // Save a clone of the form template in the variable "form"
+//   const form = document
+//     .querySelector("#form-template")
+//     .content.querySelector(".form")
+//     .cloneNode(true);
+
+//   // Store all the relevent form elements into variables
+//   const title = form.querySelector(".form__title");
+//   const fields = form.querySelector(".form__fields");
+//   const button = form.querySelector(".form__submit");
+
+//   form.classList.add("popup__form");
+
+//   // Set the relevant values of the DOM elements to those of the input object
+//   title.textContent = type.title;
+//   // Iterate through each value in the input object's "fields" array, creating and appending a new field to the form per item,
+//   // and using the value of the respective array item as the field's name and placeholder text
+//   type.fields.forEach((item) => {
+//     const field = form
+//       .querySelector("#form-field-template")
+//       .content.querySelector(".form__field")
+//       .cloneNode(true);
+//     field.name = item;
+//     field.placeholder = item;
+//     fieldClass = "form__field_type_" + item.toLowerCase().replaceAll(" ", "-");
+//     field.classList.add(fieldClass);
+//     // console.log(fieldClass);
+//     fields.append(field);
+//   });
+//   button.textContent = type.button;
+//   // console.log(form);
+
+//   // Remove the form field template so there aren't duplicates
+//   form.querySelector("#form-field-template").remove();
+
+//   // Return the finished form element
+//   return form;
+// }
+
+// function placeForm(type, handler) {
+//   // Enable the correct styles for the popup and close button
+//   popUpContainer.classList.add("popup__container_type_form");
+//   popUpClose.classList.add("popup__close_type_form");
+//   // Create the form and add it to the DOM: placed after the template and before the close button
+//   popUpClose.before(getForm(type));
+//   const form = document.querySelector(".form");
+//   form.addEventListener("submit", handler);
 // }
