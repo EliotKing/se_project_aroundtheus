@@ -8,54 +8,21 @@ function openPopUp(type) {
 }
 function closePopUp(type) {
   type.classList.remove("popup_opened");
-  resetPopUp(type);
-}
-function resetPopUp(type) {
-  if (type === cardAddPopUp) {
-    const title = cardAddPopUp.querySelector(".add-card-popup__place");
-    const url = cardAddPopUp.querySelector(".add-card-popup__image-url");
-    title.value = "";
-    url.value = "";
-  }
 }
 
 // Add event listeners to buttons
-function addCloseListener(type) {
-  const closeButton = type.querySelector(".popup__close");
-  closeButton.addEventListener("click", () => {
-    closePopUp(type);
-  });
-}
-function addSubmitListener(type) {
-  const submitButton = type.querySelector(".form__submit");
-
-  submitButton.addEventListener("click", (evt) => {
+function addSubmitListener(form, handler) {
+  form.addEventListener("submit", (evt) => {
     evt.preventDefault();
-
-    if (type === profilePopUp) {
-      // Copy inputs to the profile
-      profileName.textContent = nameInput.value;
-      profileDescription.textContent = descriptionInput.value;
-    } else if (type === cardAddPopUp) {
-      // Select the form fields and assign them to the input variables
-      const titleInput = cardAddPopUp.querySelector(
-        ".add-card-popup__place"
-      ).value;
-      const imgInput = cardAddPopUp.querySelector(
-        ".add-card-popup__image-url"
-      ).value;
-
-      // Create a card element from the user inputs and add it at the beginning of the gallery
-      const newCard = {
-        name: titleInput,
-        link: imgInput,
-      };
-      gallery.prepend(getCard(newCard));
-    }
-
-    closePopUp(type);
+    handler(evt);
+    closePopUp(form.closest(".popup"));
   });
 }
+const closeButtons = document.querySelectorAll(".popup__close");
+closeButtons.forEach((button) => {
+  const popup = button.closest(".popup");
+  button.addEventListener("click", () => closePopUp(popup));
+});
 
 //=========
 // Profile
@@ -67,6 +34,7 @@ const profileDescription = document.querySelector(".profile__description");
 
 // Select the profile popup and input fields
 const profilePopUp = document.querySelector(".profile-popup");
+const profileForm = document.forms["profile-form"];
 const nameInput = profilePopUp.querySelector(".profile-popup__name");
 const descriptionInput = document.querySelector(".profile-popup__description");
 
@@ -81,9 +49,13 @@ editButton.addEventListener("click", () => {
   openPopUp(profilePopUp);
 });
 
-// Close and Save Buttons
-addCloseListener(profilePopUp);
-addSubmitListener(profilePopUp);
+// Submit Button
+addSubmitListener(profileForm, profileSubmitHandler);
+function profileSubmitHandler() {
+  // Copy inputs to the profile
+  profileName.textContent = nameInput.value;
+  profileDescription.textContent = descriptionInput.value;
+}
 
 //=========
 // Gallery
@@ -91,7 +63,14 @@ addSubmitListener(profilePopUp);
 
 const gallery = document.querySelector(".gallery__cards");
 const cardAddPopUp = document.querySelector(".add-card-popup");
-const imagePopUp = document.querySelector(".image-popup");
+
+const cardAddForm = document.forms["add-card-form"];
+const formTitle = cardAddForm.querySelector(".add-card-popup__place");
+const formImg = cardAddForm.querySelector(".add-card-popup__image-url");
+
+const imageWindow = document.querySelector(".image-popup");
+const imageWindowImage = imageWindow.querySelector(".image-popup__image");
+const imageWindowText = imageWindow.querySelector(".image-popup__text");
 
 // Add button
 const cardAddButton = document.querySelector(".profile__add-button");
@@ -99,10 +78,30 @@ cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
 });
 
-// Close and Save Buttons
-addCloseListener(cardAddPopUp);
-addSubmitListener(cardAddPopUp);
-addCloseListener(imagePopUp);
+// Submit Button
+addSubmitListener(cardAddForm, cardAddSubmitHandler);
+function cardAddSubmitHandler(evt) {
+  // Create a card element from the user inputs and add it at the beginning of the gallery
+  const newCard = {
+    name: formTitle.value,
+    link: formImg.value,
+  };
+  gallery.prepend(getCard(newCard));
+  // Reset form fields
+  evt.target.reset();
+}
+
+// Image Popup Window: event listener created in getCard()
+function openImage(evt) {
+  // Store the selected image in a variable
+  const cardImage = evt.target;
+  // Copy the data from the selected image to the popup window
+  imageWindowImage.src = cardImage.src;
+  imageWindowImage.alt = cardImage.alt;
+  imageWindowText.textContent = cardImage.alt;
+
+  openPopUp(imageWindow);
+}
 
 // Initial card objects
 const yosemite = {
@@ -176,28 +175,11 @@ function getCard(place) {
   // Delete button
   const cardDelete = card.querySelector(".card__delete-button");
   cardDelete.addEventListener("click", function (evt) {
-    evt.target.parentElement.remove();
+    evt.target.closest(".card").remove();
   });
 
   // Return the finished card element
   return card;
-}
-
-// Image Popup Window: event listener created in getCard()
-function openImage(evt) {
-  // Store the selected image in a variable
-  const cardImage = evt.target;
-
-  // Clone the image window template and select its relevant children
-  const openedImage = imagePopUp.querySelector(".image-popup__image");
-  const text = imagePopUp.querySelector(".image-popup__text");
-
-  // Copy the data from the opened image to the popup window
-  openedImage.src = cardImage.src;
-  openedImage.alt = cardImage.alt;
-  text.textContent = cardImage.alt;
-
-  openPopUp(imagePopUp);
 }
 
 //=============================
