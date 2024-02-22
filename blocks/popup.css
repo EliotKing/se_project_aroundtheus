@@ -9,6 +9,7 @@
   height: 100%;
   background: rgb(0, 0, 0, 0.5);
   transition: 0.2s linear all;
+  cursor: pointer;
 }
 .popup_opened {
   visibility: visible;
@@ -17,6 +18,7 @@
 .popup__container {
   position: relative;
   width: 100%;
+  cursor: default;
 }
 .popup__close {
   position: absolute;

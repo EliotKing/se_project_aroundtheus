@@ -5,9 +5,19 @@
 // General Popup Functions
 function openPopUp(type) {
   type.classList.add("popup_opened");
+  document.addEventListener("keydown", escPress);
 }
 function closePopUp(type) {
   type.classList.remove("popup_opened");
+  document.removeEventListener("keydown", escPress);
+}
+
+// Escape key event listener
+function escPress(evt) {
+  if (evt.key === "Escape") {
+    const currentPopUp = document.querySelector(".popup_opened");
+    closePopUp(currentPopUp);
+  }
 }
 
 // Add event listeners to buttons
@@ -20,8 +30,15 @@ function addSubmitListener(form, handler) {
 }
 const closeButtons = document.querySelectorAll(".popup__close");
 closeButtons.forEach((button) => {
+  // Add event listeners to close buttons
   const popup = button.closest(".popup");
   button.addEventListener("click", () => closePopUp(popup));
+  // Add event listeners to popup windows to close when clicking out of the form
+  popup.addEventListener("click", (evt) => {
+    if (evt.target === popup) {
+      closePopUp(popup);
+    }
+  });
 });
 
 //=========
