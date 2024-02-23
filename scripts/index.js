@@ -34,10 +34,22 @@ closeButtons.forEach((button) => {
   const popup = button.closest(".popup");
   button.addEventListener("click", () => closePopUp(popup));
   // Add event listeners to popup windows to close when clicking out of the form
+  let contentNotClicked = true;
   popup.addEventListener("click", (evt) => {
-    if (evt.target === popup) {
+    if (evt.target === popup && contentNotClicked === true) {
       closePopUp(popup);
     }
+    contentNotClicked = true;
+  });
+  // Mousedown and mouseup events to make sure that no part of the click happens on the popup container.
+  // Without this, clicking down on the form but releasing off of it,
+  // or starting a click off the form but releasing on it, would still close the window.
+  const popUpContainer = popup.querySelector(".popup__container");
+  popUpContainer.addEventListener("mousedown", () => {
+    contentNotClicked = false;
+  });
+  popUpContainer.addEventListener("mouseup", () => {
+    contentNotClicked = false;
   });
 });
 
