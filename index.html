@@ -67,27 +67,39 @@
         <form
           class="form form-popup__form profile-popup__form"
           name="profile-form"
+          novalidate
         >
           <h2 class="form__title form-popup__title profile-popup__title">
             Edit Profile
           </h2>
           <div class="form__fields form-popup__fields profile-popup__fields">
-            <input
-              type="text"
-              name="Name"
-              class="form__field form-popup__field profile-popup__name"
-              placeholder="Name"
-              autocomplete="off"
-              required
-            />
-            <input
-              type="text"
-              name="Description"
-              class="form__field form-popup__field profile-popup__description"
-              placeholder="Description"
-              autocomplete="off"
-              required
-            />
+            <label class="form__field"
+              ><input
+                type="text"
+                name="Name"
+                class="form__input form-popup__field profile-popup__name"
+                id="name-input"
+                placeholder="Name"
+                autocomplete="off"
+                required
+                minlength="2"
+                maxlength="40"
+              />
+              <span class="form__input-error name-input-error"></span>
+            </label>
+            <label class="form__field"
+              ><input
+                type="text"
+                name="Description"
+                class="form__input form-popup__field profile-popup__description"
+                id="description-input"
+                placeholder="Description"
+                autocomplete="off"
+                required
+                minlength="2"
+                maxlength="200" />
+              <span class="form__input-error description-input-error"></span
+            ></label>
           </div>
           <button
             type="submit"
@@ -108,27 +120,37 @@
         <form
           class="form form-popup__form add-card-popup__form"
           name="add-card-form"
+          novalidate
         >
           <h2 class="form__title form-popup__title add-card-popup__title">
             New Place
           </h2>
           <div class="form__fields form-popup__fields add-card-popup__fields">
-            <input
-              type="text"
-              name="Title"
-              class="form__field form-popup__field add-card-popup__place"
-              placeholder="Title"
-              autocomplete="off"
-              required
-            />
-            <input
-              type="text"
-              name="Image URL"
-              class="form__field form-popup__field add-card-popup__image-url"
-              placeholder="Image URL"
-              autocomplete="off"
-              required
-            />
+            <label class="form__field">
+              <input
+                type="text"
+                name="Title"
+                class="form__input form-popup__field add-card-popup__place"
+                id="place-input"
+                placeholder="Title"
+                autocomplete="off"
+                required
+                minlength="1"
+                maxlength="30"
+              />
+              <span class="form__input-error place-input-error"></span>
+            </label>
+            <label class="form__field"
+              ><input
+                type="url"
+                name="Image URL"
+                class="form__input form-popup__field add-card-popup__image-url"
+                id="url-input"
+                placeholder="Image URL"
+                autocomplete="off"
+                required />
+              <span class="form__input-error url-input-error"></span
+            ></label>
           </div>
           <button
             type="submit"

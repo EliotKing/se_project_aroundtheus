@@ -21,9 +21,10 @@
   margin: 0;
   padding: 0;
 }
-.form__field {
+.form__input {
   font-size: 14px;
   line-height: 14px;
+  width: 100%;
   padding: 12px 0 12px 2px;
   margin: 0;
   border: 0;
