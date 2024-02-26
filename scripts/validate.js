@@ -18,12 +18,12 @@ function setEventListeners(formElement, config) {
   );
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement, config);
+      checkInputValidity(formElement, inputList, inputElement, config);
     });
   });
 }
 
-function checkInputValidity(formElement, inputElement, config) {
+function checkInputValidity(formElement, inputList, inputElement, config) {
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
@@ -34,7 +34,18 @@ function checkInputValidity(formElement, inputElement, config) {
     disableSubmit(formElement, config.submitButtonSelector);
   } else {
     hideInputError(formElement, inputElement, config);
-    enableSubmit(formElement, config.submitButtonSelector);
+    checkFormValidity(formElement, inputList, config.submitButtonSelector);
+  }
+}
+function checkFormValidity(formElement, inputList, buttonSelector) {
+  if (
+    inputList.some((inputElement) => {
+      return inputElement.validity.valid === false;
+    })
+  ) {
+    disableSubmit(formElement, buttonSelector);
+  } else {
+    enableSubmit(formElement, buttonSelector);
   }
 }
 
