@@ -46,6 +46,11 @@
 .button_type_general:hover {
   opacity: 80%;
 }
+.button_type_general:disabled {
+  color: rgb(0, 0, 0, 0.2);
+  background-color: #fff;
+  border: 1px solid rgb(0, 0, 0, 0.2);
+}
 .button_type_close {
   background: url(../images/icon-close.svg) transparent center no-repeat;
   background-size: cover;
