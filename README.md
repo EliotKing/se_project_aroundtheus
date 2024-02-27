@@ -31,6 +31,12 @@ This version also lays some groundwork for making the cards dynamic, and showcas
 
 **Version 3**
 
-[Link to the Figma design/specs for version 2](https://www.figma.com/file/JFPhASqvZ5pBjQV2ouUlim/Sprint-5_-Around-The-U.S.)
+[Link to the Figma design/specs for version 3](https://www.figma.com/file/JFPhASqvZ5pBjQV2ouUlim/Sprint-5_-Around-The-U.S.)
 
 Version 3 showcases much more involved JavaScript knowledge, making most of the page interactable. Features include the ability to add and remove cards, and adding independent functionality to several buttons. This version is still only client-side.
+
+**Version 4**
+
+[Link to the Figma design/specs for version 4](https://www.figma.com/file/N3zUeequnpvMX807FfYAZW/Sprint-6-Around-The-U.S.)
+
+Version 4 added basic JavaScript validation to the forms and some ease of use features for closing the forms, such as clicking off of the form or pressing Escape.
