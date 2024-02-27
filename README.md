@@ -1,11 +1,6 @@
 # Around The U.S.
 
-### Overview
-
-- Intro
-- Version 1
-
-**Intro**
+###Overview
 
 [View the project here](https://eliotking.github.io/se_project_aroundtheus/)
 
