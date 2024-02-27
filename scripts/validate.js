@@ -1,7 +1,7 @@
 function enableValidation(config) {
   const formList = Array.from(document.forms);
-  formList.forEach((formElement) => {
-    setEventListeners(formElement, config);
+  formList.forEach((form) => {
+    setEventListeners(form, config);
   });
 }
 enableValidation({
@@ -11,63 +11,57 @@ enableValidation({
   inputErrorClass: "form__input_type_error",
   errorClass: "form__input-error_active",
 });
-
-function setEventListeners(formElement, config) {
-  const inputList = Array.from(
-    formElement.querySelectorAll(config.inputSelector)
-  );
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputList, inputElement, config);
+// Set input event listeners on all the inputs of a given form
+function setEventListeners(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  inputList.forEach((input) => {
+    input.addEventListener("input", function () {
+      checkInputValidity(form, inputList, input, config);
     });
   });
 }
-
-function checkInputValidity(formElement, inputList, inputElement, config) {
-  if (!inputElement.validity.valid) {
-    showInputError(
-      formElement,
-      inputElement,
-      inputElement.validationMessage,
-      config
-    );
-    disableSubmit(formElement, config.submitButtonSelector);
+// Check a specified input's validity and display or hide the error message as necessary.
+function checkInputValidity(form, inputList, input, config) {
+  if (!input.validity.valid) {
+    displayInputError(true, form, input, input.validationMessage, config);
   } else {
-    hideInputError(formElement, inputElement, config);
-    checkFormValidity(formElement, inputList, config.submitButtonSelector);
+    displayInputError(false, form, input, input.validationMessage, config);
   }
+  checkFormValidity(form, inputList, config.submitButtonSelector);
 }
-function checkFormValidity(formElement, inputList, buttonSelector) {
+// Check the overall form validity, ensuring that all inputs are valid and enabling or disabling the
+// submit button respectively
+function checkFormValidity(form, inputList, buttonSelector) {
   if (
-    inputList.some((inputElement) => {
-      return inputElement.validity.valid === false;
+    inputList.some((input) => {
+      return input.validity.valid === false;
     })
   ) {
-    disableSubmit(formElement, buttonSelector);
+    setSubmitState(false, form, buttonSelector);
   } else {
-    enableSubmit(formElement, buttonSelector);
+    setSubmitState(true, form, buttonSelector);
   }
 }
-
-function showInputError(formElement, inputElement, errorMessage, config) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(config.inputErrorClass);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(config.errorClass);
+// Show or hide the error message, using the isError parameter (true to show it and flase to hide it)
+function displayInputError(isError, form, input, errorMessage, config) {
+  const errorElement = form.querySelector(`.${input.id}-error`);
+  if (isError) {
+    input.classList.add(config.inputErrorClass);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(config.errorClass);
+  } else if (!isError) {
+    input.classList.remove(config.inputErrorClass);
+    errorElement.classList.remove(config.errorClass);
+    errorElement.textContent = "";
+  }
 }
-
-function hideInputError(formElement, inputElement, config) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(config.inputErrorClass);
-  errorElement.classList.remove(config.errorClass);
-  errorElement.textContent = "";
-}
-
-function enableSubmit(form, buttonSelector) {
+// Take submitState (true to enable submit, false to disable), the form, and the class selector of the
+// submit button, and enable or disable the button respectively
+function setSubmitState(submitState, form, buttonSelector) {
   button = form.querySelector(buttonSelector);
-  button.disabled = false;
-}
-function disableSubmit(form, buttonSelector) {
-  button = form.querySelector(buttonSelector);
-  button.disabled = true;
+  if (submitState) {
+    button.disabled = false;
+  } else if (!submitState) {
+    button.disabled = true;
+  }
 }

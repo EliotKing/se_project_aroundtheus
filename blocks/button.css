@@ -50,6 +50,7 @@
   color: rgb(0, 0, 0, 0.2);
   background-color: #fff;
   border: 1px solid rgb(0, 0, 0, 0.2);
+  cursor: default;
 }
 .button_type_close {
   background: url(../images/icon-close.svg) transparent center no-repeat;
