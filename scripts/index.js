@@ -72,8 +72,6 @@ const editButton = document.querySelector(".profile__edit-button");
 // Edit button event listener and handler
 editButton.addEventListener("click", () => {
   const inputList = Array.from(profileForm.querySelectorAll(".form__input"));
-  console.log(inputList);
-
   // Assign the current profile information to the input fields
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
@@ -121,7 +119,6 @@ function cardAddSubmitHandler(evt) {
   gallery.prepend(getCard(newCard));
   // Reset form fields and disable the button
   evt.target.reset();
-  console.log(evt.target);
   const submitButton = cardAddForm.querySelector(".form__submit");
   submitButton.disabled = true;
 }
