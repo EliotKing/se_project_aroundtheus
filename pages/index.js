@@ -2,6 +2,8 @@
 // General Popup and Buttons
 //===========================
 
+import { Card } from "/components/card.js";
+
 // General Popup Functions
 function openPopUp(popup) {
   popup.classList.add("popup_opened");
@@ -135,10 +137,15 @@ function openImage(evt) {
 }
 
 // Initial card objects
-const yosemite = {
-  name: "Yosemite Valley",
-  link: "./images/yosemite.jpg",
-};
+const yosemite = new Card(
+  {
+    name: "Yosemite Valley",
+    link: "./images/yosemite.jpg",
+  },
+  openImage
+);
+yosemite.createCard();
+
 const lakeLouise = {
   name: "Lake Louise",
   link: "./images/lake-louise.jpg",
@@ -161,54 +168,17 @@ const lagoDiBraies = {
 };
 
 // Initial cards array
-const initialCards = [
-  yosemite,
-  lakeLouise,
-  baldMountains,
-  latemar,
-  vanoise,
-  lagoDiBraies,
-];
+// const initialCards = [
+//   yosemite,
+//   lakeLouise,
+//   baldMountains,
+//   latemar,
+//   vanoise,
+//   lagoDiBraies,
+// ];
 
 // Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
-initialCards.forEach((item) => {
-  const cardToAdd = getCard(item);
-  gallery.append(cardToAdd);
-});
-
-// Take an object as an argument and use its values to generate and return a card element
-function getCard(place) {
-  // Select the card template and clone it into a variable "card"
-  const card = document
-    .querySelector("#card-template")
-    .content.querySelector(".card")
-    .cloneNode(true);
-
-  // Assign the Name and Link from the input object into variables
-  const cardName = place.name;
-  const cardLink = place.link;
-  // Assign the Title and Image from the DOM into variables
-  const cardImage = card.querySelector(".card__image");
-  const cardTitle = card.querySelector(".card__title");
-  // Set the relevant values of the DOM elements to those of the input object
-  cardImage.setAttribute("src", cardLink);
-  cardImage.setAttribute("alt", cardName);
-  cardTitle.textContent = cardName;
-  // Add event listener to the image
-  cardImage.addEventListener("click", openImage);
-
-  // Like button
-  const cardLike = card.querySelector(".card__like-button");
-  cardLike.addEventListener("click", function (evt) {
-    evt.target.classList.toggle("card__like-button_pressed");
-  });
-
-  // Delete button
-  const cardDelete = card.querySelector(".card__delete-button");
-  cardDelete.addEventListener("click", function (evt) {
-    evt.target.closest(".card").remove();
-  });
-
-  // Return the finished card element
-  return card;
-}
+// initialCards.forEach((item) => {
+//   const cardToAdd = getCard(item);
+//   gallery.append(cardToAdd);
+// });
