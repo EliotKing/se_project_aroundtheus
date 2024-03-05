@@ -1,3 +1,4 @@
+console.log("test 2");
 function enableValidation(config) {
   const formList = Array.from(document.forms);
   formList.forEach((form) => {
