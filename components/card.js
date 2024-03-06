@@ -1,32 +1,14 @@
-const gallery = document.querySelector(".gallery__cards");
+import { openImage, cardSelector, gallery } from "/pages/index.js";
 
 class Card {
-  constructor(data, handleImageClick) {
-    this.name = data.name;
-    this.link = data.link;
-    this.imageHandler = handleImageClick;
+  constructor(data, cardSelector, handleImageClick) {
+    this._name = data.name;
+    this._link = data.link;
+    this._cardSelector = cardSelector;
+    this._handleImageClick = handleImageClick;
   }
 
-  getCard() {
-    // Select the card template and clone it into a variable "card"
-    const card = document
-      .querySelector("#card-template")
-      .content.querySelector(".card")
-      .cloneNode(true);
-
-    // Assign the Name and Link from the input object into variables
-    const cardName = this.name;
-    const cardLink = this.link;
-    // Assign the Title and Image from the DOM into variables
-    const cardImage = card.querySelector(".card__image");
-    const cardTitle = card.querySelector(".card__title");
-    // Set the relevant values of the DOM elements to those of the input object
-    cardImage.setAttribute("src", cardLink);
-    cardImage.setAttribute("alt", cardName);
-    cardTitle.textContent = cardName;
-    // Add event listener to the image
-    cardImage.addEventListener("click", this.imageHandler);
-
+  _setEventListeners(card, image) {
     // Like button
     const cardLike = card.querySelector(".card__like-button");
     cardLike.addEventListener("click", function (evt) {
@@ -39,13 +21,78 @@ class Card {
       evt.target.closest(".card").remove();
     });
 
+    // Image
+    image.addEventListener("click", this._handleImageClick);
+  }
+
+  getCard() {
+    // Select the card template and clone it into a variable "card"
+    const card = this._cardSelector.cloneNode(true);
+
+    // Assign the Title and Image from the DOM into variables
+    const cardTitle = card.querySelector(".card__title");
+    const cardImage = card.querySelector(".card__image");
+    // Assign the relevent class reference properties into the DOM elements
+    cardTitle.textContent = this._name;
+    cardImage.setAttribute("src", this._link);
+    cardImage.setAttribute("alt", this._name);
+
+    this._setEventListeners(card, cardImage);
+
     // Return the finished card element
     return card;
   }
-
-  createCard() {
-    gallery.append(this.getCard());
-  }
 }
 
-export { Card };
+// Initial card objects
+const yosemite = {
+  name: "Yosemite Valley",
+  link: "./images/yosemite.jpg",
+};
+const lakeLouise = {
+  name: "Lake Louise",
+  link: "./images/lake-louise.jpg",
+};
+const baldMountains = {
+  name: "Bald Mountains",
+  link: "./images/bald-mountains.jpg",
+};
+const latemar = {
+  name: "Latemar",
+  link: "./images/latemar.jpg",
+};
+const vanoise = {
+  name: "Vanoise National Park",
+  link: "./images/vanoise.jpg",
+};
+const lagoDiBraies = {
+  name: "Lago di Braies",
+  link: "./images/lago-di-braies.jpg",
+};
+
+// Initial cards array
+const initialCards = [
+  yosemite,
+  lakeLouise,
+  baldMountains,
+  latemar,
+  vanoise,
+  lagoDiBraies,
+];
+
+function initializeCards() {
+  // Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
+  initialCards.forEach((item) => {
+    const cardToAdd = new Card(
+      {
+        name: item.name,
+        link: item.link,
+      },
+      cardSelector,
+      openImage
+    );
+    gallery.append(cardToAdd.getCard());
+  });
+}
+
+export { Card, initializeCards };

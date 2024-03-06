@@ -2,7 +2,7 @@
 // General Popup and Buttons
 //===========================
 
-import { Card } from "/components/card.js";
+import { Card, initializeCards } from "/components/card.js";
 
 // General Popup Functions
 function openPopUp(popup) {
@@ -92,32 +92,38 @@ function profileSubmitHandler() {
 // Gallery
 //=========
 
+const cardSelector = document
+  .querySelector("#card-template")
+  .content.querySelector(".card");
 const gallery = document.querySelector(".gallery__cards");
-const cardAddPopUp = document.querySelector(".add-card-popup");
 
-const cardAddForm = document.forms["add-card-form"];
-const formTitle = cardAddForm.querySelector(".add-card-popup__place");
-const formImg = cardAddForm.querySelector(".add-card-popup__image-url");
-
-const imageWindow = document.querySelector(".image-popup");
-const imageWindowImage = imageWindow.querySelector(".image-popup__image");
-const imageWindowText = imageWindow.querySelector(".image-popup__text");
+initializeCards();
 
 // Add button
+const cardAddPopUp = document.querySelector(".add-card-popup");
 const cardAddButton = document.querySelector(".profile__add-button");
+
 cardAddButton.addEventListener("click", () => {
   openPopUp(cardAddPopUp);
 });
 
 // Submit Button
+const cardAddForm = document.forms["add-card-form"];
+const formTitle = cardAddForm.querySelector(".add-card-popup__place");
+const formImg = cardAddForm.querySelector(".add-card-popup__image-url");
+
 addSubmitListener(cardAddForm, cardAddSubmitHandler);
 function cardAddSubmitHandler(evt) {
   // Create a card element from the user inputs and add it at the beginning of the gallery
-  const newCard = {
-    name: formTitle.value,
-    link: formImg.value,
-  };
-  gallery.prepend(getCard(newCard));
+  const newCard = new Card(
+    {
+      name: formTitle.value,
+      link: formImg.value,
+    },
+    cardSelector,
+    openImage
+  );
+  gallery.prepend(newCard.getCard());
   // Reset form fields and disable the button
   evt.target.reset();
   const submitButton = evt.submitter;
@@ -125,6 +131,10 @@ function cardAddSubmitHandler(evt) {
 }
 
 // Image Popup Window: event listener created in getCard()
+const imageWindow = document.querySelector(".image-popup");
+const imageWindowImage = imageWindow.querySelector(".image-popup__image");
+const imageWindowText = imageWindow.querySelector(".image-popup__text");
+
 function openImage(evt) {
   // Store the selected image in a variable
   const cardImage = evt.target;
@@ -136,49 +146,4 @@ function openImage(evt) {
   openPopUp(imageWindow);
 }
 
-// Initial card objects
-const yosemite = new Card(
-  {
-    name: "Yosemite Valley",
-    link: "./images/yosemite.jpg",
-  },
-  openImage
-);
-yosemite.createCard();
-
-const lakeLouise = {
-  name: "Lake Louise",
-  link: "./images/lake-louise.jpg",
-};
-const baldMountains = {
-  name: "Bald Mountains",
-  link: "./images/bald-mountains.jpg",
-};
-const latemar = {
-  name: "Latemar",
-  link: "./images/latemar.jpg",
-};
-const vanoise = {
-  name: "Vanoise National Park",
-  link: "./images/vanoise.jpg",
-};
-const lagoDiBraies = {
-  name: "Lago di Braies",
-  link: "./images/lago-di-braies.jpg",
-};
-
-// Initial cards array
-// const initialCards = [
-//   yosemite,
-//   lakeLouise,
-//   baldMountains,
-//   latemar,
-//   vanoise,
-//   lagoDiBraies,
-// ];
-
-// Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
-// initialCards.forEach((item) => {
-//   const cardToAdd = getCard(item);
-//   gallery.append(cardToAdd);
-// });
+export { openImage, cardSelector, gallery };
