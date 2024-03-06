@@ -1,8 +1,9 @@
+import { Card, initializeCards } from "/components/Card.js";
+import { FormValidator } from "/components/FormValidator.js";
+
 //===========================
 // General Popup and Buttons
 //===========================
-
-import { Card, initializeCards } from "/components/card.js";
 
 // General Popup Functions
 function openPopUp(popup) {
@@ -55,6 +56,29 @@ closeButtons.forEach((button) => {
   });
 });
 
+//============
+// Validation
+//============
+
+const validationConfig = {
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__submit",
+  inactiveButtonClass: "form__submit_disabled",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_active",
+};
+
+// Form Elements
+const profileForm = document.forms["profile-form"];
+const cardAddForm = document.forms["add-card-form"];
+
+// Form Validators — explicitly declared so they can be accessed easily and so they can be assigned to
+// child classes of FormValidator in the future instead, if necessary
+const profileFormValidator = new FormValidator(validationConfig, profileForm);
+profileFormValidator.enableValidation();
+const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
+cardAddFormValidator.enableValidation();
+
 //=========
 // Profile
 //=========
@@ -65,7 +89,6 @@ const profileDescription = document.querySelector(".profile__description");
 
 // Select the profile popup and input fields
 const profilePopUp = document.querySelector(".profile-popup");
-const profileForm = document.forms["profile-form"];
 const nameInput = profilePopUp.querySelector(".profile-popup__name");
 const descriptionInput = document.querySelector(".profile-popup__description");
 
@@ -76,6 +99,7 @@ editButton.addEventListener("click", () => {
   // Assign the current profile information to the input fields
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
+  profileFormValidator.resetValidation();
 
   openPopUp(profilePopUp);
 });
@@ -108,7 +132,6 @@ cardAddButton.addEventListener("click", () => {
 });
 
 // Submit Button
-const cardAddForm = document.forms["add-card-form"];
 const formTitle = cardAddForm.querySelector(".add-card-popup__place");
 const formImg = cardAddForm.querySelector(".add-card-popup__image-url");
 
@@ -126,8 +149,7 @@ function cardAddSubmitHandler(evt) {
   gallery.prepend(newCard.getCard());
   // Reset form fields and disable the button
   evt.target.reset();
-  const submitButton = evt.submitter;
-  submitButton.disabled = true;
+  evt.submitter.disabled = true;
 }
 
 // Image Popup Window: event listener created in getCard()
@@ -145,5 +167,9 @@ function openImage(evt) {
 
   openPopUp(imageWindow);
 }
+
+//=========
+// Exports
+//=========
 
 export { openImage, cardSelector, gallery };

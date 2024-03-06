@@ -35,3 +35,7 @@ Version 3 showcases much more involved JavaScript knowledge, making most of the 
 [Link to the Figma design/specs for version 4](https://www.figma.com/file/N3zUeequnpvMX807FfYAZW/Sprint-6-Around-The-U.S.)
 
 Version 4 added basic JavaScript validation to the forms and some ease of use features for closing the forms, such as clicking off of the form or pressing Escape.
+
+**Version 5**
+
+Version 5 is a refactor of version 4, implementing modular JavaScript and utilizing JavaScript classes. This version also fixed a validation bug that displayed validation errors when opening the profile form if it had previously been closed while displaying errors.
