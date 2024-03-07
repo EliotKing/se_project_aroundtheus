@@ -12,11 +12,10 @@ class FormValidator {
     this._inputList = Array.from(
       this._form.querySelectorAll(this._inputSelector)
     );
-    const validator = this;
 
     this._inputList.forEach((input) => {
-      input.addEventListener("input", function () {
-        validator._checkInputValidity(input);
+      input.addEventListener("input", () => {
+        this._checkInputValidity(input);
       });
     });
   }
@@ -59,11 +58,11 @@ class FormValidator {
   // Take submitState (true to enable submit, false to disable), the form, and the class selector of the
   // submit button, and enable or disable the button respectively
   _setSubmitState(submitState) {
-    const button = this._form.querySelector(this._submitButtonSelector);
+    this._button = this._form.querySelector(this._submitButtonSelector);
     if (submitState) {
-      button.disabled = false;
+      this._button.disabled = false;
     } else if (!submitState) {
-      button.disabled = true;
+      this._button.disabled = true;
     }
   }
 
@@ -72,10 +71,12 @@ class FormValidator {
     this._setEventListeners();
   }
   resetValidation() {
-    const validator = this;
     this._inputList.forEach((input) => {
-      validator._checkInputValidity(input);
+      this._checkInputValidity(input);
     });
+  }
+  disableSubmit() {
+    this._setSubmitState(false);
   }
 }
 

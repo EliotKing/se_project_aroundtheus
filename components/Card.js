@@ -8,39 +8,45 @@ class Card {
     this._handleImageClick = handleImageClick;
   }
 
-  _setEventListeners(card, image) {
+  _getCardElements() {
+    this._likeButton = this._card.querySelector(".card__like-button");
+    this._cardTitle = this._card.querySelector(".card__title");
+    this._cardImage = this._card.querySelector(".card__image");
+    this._deleteButton = this._card.querySelector(".card__delete-button");
+  }
+
+  _setEventListeners() {
     // Like button
-    const cardLike = card.querySelector(".card__like-button");
-    cardLike.addEventListener("click", function (evt) {
+    this._likeButton.addEventListener("click", function (evt) {
       evt.target.classList.toggle("card__like-button_pressed");
     });
 
     // Delete button
-    const cardDelete = card.querySelector(".card__delete-button");
-    cardDelete.addEventListener("click", function (evt) {
+    this._deleteButton.addEventListener("click", function (evt) {
       evt.target.closest(".card").remove();
     });
 
     // Image
-    image.addEventListener("click", this._handleImageClick);
+    this._cardImage.addEventListener("click", this._handleImageClick);
   }
 
   getCard() {
     // Select the card template and clone it into a variable "card"
-    const card = this._cardSelector.cloneNode(true);
+    this._card = document
+      .querySelector(this._cardSelector)
+      .content.querySelector(".card")
+      .cloneNode(true);
+    this._getCardElements();
 
-    // Assign the Title and Image from the DOM into variables
-    const cardTitle = card.querySelector(".card__title");
-    const cardImage = card.querySelector(".card__image");
     // Assign the relevent class reference properties into the DOM elements
-    cardTitle.textContent = this._name;
-    cardImage.setAttribute("src", this._link);
-    cardImage.setAttribute("alt", this._name);
+    this._cardTitle.textContent = this._name;
+    this._cardImage.setAttribute("src", this._link);
+    this._cardImage.setAttribute("alt", this._name);
 
-    this._setEventListeners(card, cardImage);
+    this._setEventListeners();
 
     // Return the finished card element
-    return card;
+    return this._card;
   }
 }
 
@@ -83,16 +89,21 @@ const initialCards = [
 function initializeCards() {
   // Loop through each object in the initialCards array, call getCard on them, then add them to the DOM
   initialCards.forEach((item) => {
-    const cardToAdd = new Card(
-      {
-        name: item.name,
-        link: item.link,
-      },
-      cardSelector,
-      openImage
-    );
-    gallery.append(cardToAdd.getCard());
+    const cardToAdd = createCard(item);
+    gallery.append(cardToAdd);
   });
 }
 
-export { Card, initializeCards };
+function createCard(item) {
+  const card = new Card(
+    {
+      name: item.name,
+      link: item.link,
+    },
+    cardSelector,
+    openImage
+  );
+  return card.getCard();
+}
+
+export { Card, initializeCards, createCard };

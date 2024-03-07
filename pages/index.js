@@ -1,4 +1,4 @@
-import { Card, initializeCards } from "/components/Card.js";
+import { initializeCards, createCard } from "/components/Card.js";
 import { FormValidator } from "/components/FormValidator.js";
 
 //===========================
@@ -68,16 +68,21 @@ const validationConfig = {
   errorClass: "form__input-error_active",
 };
 
-// Form Elements
-const profileForm = document.forms["profile-form"];
-const cardAddForm = document.forms["add-card-form"];
+// Object to store all form validators
+const formValidators = {};
 
-// Form Validators — explicitly declared so they can be accessed easily and so they can be assigned to
-// child classes of FormValidator in the future instead, if necessary
-const profileFormValidator = new FormValidator(validationConfig, profileForm);
-profileFormValidator.enableValidation();
-const cardAddFormValidator = new FormValidator(validationConfig, cardAddForm);
-cardAddFormValidator.enableValidation();
+// Iterate through all forms, create and enable validators, and store them in the formValidators object
+function enableValidation(config) {
+  const formList = Array.from(document.forms);
+  formList.forEach((form) => {
+    const validator = new FormValidator(config, form);
+    const formName = form.getAttribute("name");
+    // Store validator in the formValidators object and enable validation
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+}
+enableValidation(validationConfig);
 
 //=========
 // Profile
@@ -99,12 +104,14 @@ editButton.addEventListener("click", () => {
   // Assign the current profile information to the input fields
   nameInput.value = profileName.textContent;
   descriptionInput.value = profileDescription.textContent;
-  profileFormValidator.resetValidation();
+  formValidators["profile-form"].resetValidation();
 
   openPopUp(profilePopUp);
 });
 
 // Submit Button
+const profileForm = document.forms["profile-form"];
+
 addSubmitListener(profileForm, profileSubmitHandler);
 function profileSubmitHandler() {
   // Copy inputs to the profile
@@ -116,9 +123,7 @@ function profileSubmitHandler() {
 // Gallery
 //=========
 
-const cardSelector = document
-  .querySelector("#card-template")
-  .content.querySelector(".card");
+const cardSelector = "#card-template";
 const gallery = document.querySelector(".gallery__cards");
 
 initializeCards();
@@ -132,24 +137,21 @@ cardAddButton.addEventListener("click", () => {
 });
 
 // Submit Button
+const cardAddForm = document.forms["add-card-form"];
 const formTitle = cardAddForm.querySelector(".add-card-popup__place");
 const formImg = cardAddForm.querySelector(".add-card-popup__image-url");
 
 addSubmitListener(cardAddForm, cardAddSubmitHandler);
 function cardAddSubmitHandler(evt) {
   // Create a card element from the user inputs and add it at the beginning of the gallery
-  const newCard = new Card(
-    {
-      name: formTitle.value,
-      link: formImg.value,
-    },
-    cardSelector,
-    openImage
-  );
-  gallery.prepend(newCard.getCard());
-  // Reset form fields and disable the button
+  const newCard = createCard({
+    name: formTitle.value,
+    link: formImg.value,
+  });
+  gallery.prepend(newCard);
+  // Reset validation and form fields
   evt.target.reset();
-  evt.submitter.disabled = true;
+  formValidators["add-card-form"].disableSubmit();
 }
 
 // Image Popup Window: event listener created in getCard()
