@@ -9,6 +9,7 @@ class FormValidator {
   }
   // Set input event listeners on all the inputs of a given form
   _setEventListeners() {
+    this._button = this._form.querySelector(this._submitButtonSelector);
     this._inputList = Array.from(
       this._form.querySelectorAll(this._inputSelector)
     );
@@ -58,7 +59,6 @@ class FormValidator {
   // Take submitState (true to enable submit, false to disable), the form, and the class selector of the
   // submit button, and enable or disable the button respectively
   _setSubmitState(submitState) {
-    this._button = this._form.querySelector(this._submitButtonSelector);
     if (submitState) {
       this._button.disabled = false;
     } else if (!submitState) {
